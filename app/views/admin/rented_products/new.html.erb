@@ -1,0 +1,52 @@
+<%= form_for [:admin, @return_product] do |f| %>
+  <div  class="table_list">
+    <table width="100%">
+      <caption>Order</caption>
+      <thead>
+        <th>Banyaknya</th>
+        <th>Nama Barang</th>
+        <th>Harga</th>
+        <th>Jumlah Harga</th>
+        <th>Keterangan</th>
+        <th colspan="2"></th>
+      </thead>
+
+      <% @ordered_products.each do |ordered_product| %>
+        <tr class="odd">
+          <td class="right"><%= ordered_product.qty %></td>
+          <td><%= ordered_product.name %></td>
+          <td class="right"><%= money_format(ordered_product.rent_price) %></td>
+          <td class="right"><%= money_format(ordered_product.sub_total) %></td>
+          <td><%= ordered_product.description %></td>
+          <% unless ordered_product.is_package? %>
+            <td>
+              <%= text_field_tag 'return_product[][return_qty]', '', :size => 6 %>
+              <%= hidden_field_tag 'return_product[][ordered_product_id]', ordered_product.id %>
+            </td>
+          <% end %>
+        </tr>
+        <% if ordered_product.is_package? %>
+          <% ProductPackage.where("parent_id = ?",ordered_product.product_id).each do |product_package| %>
+          <tr>
+            <td></td>
+            <td> - <%= product_package.child.name %></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <%= text_field_tag 'return_product[][return_qty]', '', :size => 6 %>
+              <%= hidden_field_tag 'return_product[][ordered_product_id]', ordered_product.id %>
+            </td>
+          </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+        <tr>
+          <td colspan="7">
+              <%= submit_tag "Simpan" %>
+          </td>
+        </tr>
+    </table>
+  </div>
+<% end %>
+

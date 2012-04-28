@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  customer: MyString
+  address: MyString
+  phone: MyString
+  delivery_date: 2012-01-02
+  usage_date: 2012-01-02
+  duration_in_days: 1
+  total_price_per_day: 9.99
+  total_price: 9.99
+  payment_status: 1
+  user_id: 1
+
+two:
+  customer: MyString
+  address: MyString
+  phone: MyString
+  delivery_date: 2012-01-02
+  usage_date: 2012-01-02
+  duration_in_days: 1
+  total_price_per_day: 9.99
+  total_price: 9.99
+  payment_status: 1
+  user_id: 1

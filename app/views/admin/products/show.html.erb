@@ -1,0 +1,21 @@
+<%= render :partial => 'show', :locals => { :product => @product } %>
+
+<br/>
+
+<div class="link">
+  <%= link_to 'Ubah', edit_admin_product_path(@product) %>
+  <%= link_to 'Kembali', admin_products_path %>
+</div>
+
+<br/>
+
+<% if @product.is_package? %>
+  <div class="link">
+    <!-- product_packages/new.html.erb -->
+    <%= link_to 'Tambah Produk Sebagai Paket', new_admin_product_product_package_path(@product), :rel => "facebox" %>
+  </div>
+
+  <br/>
+
+  <%= render :partial => 'admin/product_packages/list', :locals => { :product_packages => @product_packages } %>
+<% end %>

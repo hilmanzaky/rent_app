@@ -1,0 +1,46 @@
+<div class="panel">
+  <div class="header">
+    Detail Order
+  </div>
+  <div class="main-content">
+    <div class="form">
+      <table width="100%">
+        <tr>
+          <td>
+            <label>Customer</label>
+            <div class="show"><%= @order.customer %></div><br/>
+
+            <label>Alamat</label>
+            <div class="show"><%= @order.address %>&nbsp;</div><br/>
+
+            <label>Telepon</label>
+            <div class="show"><%= @order.phone %></div><br/>
+
+            <label>Tanggal Kirim</label>
+            <div class="show"><%= @order.delivery_date %></div><br/>
+
+            <label>Tanggal Pakai</label>
+            <div class="show"><%= @order.usage_date %></div><br/>
+          </td>
+          <td>
+            <label>Durasi (per hari)</label>
+            <div class="show"><%= @order.duration_in_days %></div><br/>
+
+            <label>Total Harga per Hari</label>
+            <div class="show"><%= money_format(@order.total_price_per_day) %></div><br/>
+
+            <label>Total Harga</label>
+            <div class="show"><%= money_format(@order.total_price) %></div><br/>
+
+            <label>Status</label>
+            <div class="show"><%= @order.payment_status %></div><br/>
+
+            <label>User</label>
+            <div class="show"><%= @order.user.username %></div><br/>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+

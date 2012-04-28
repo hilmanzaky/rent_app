@@ -1,0 +1,21 @@
+<div  class="table_list">
+  <table width="100%">
+    <caption>User List</caption>
+    <thead>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Action</th>
+    </thead>
+    <% @users.each do |user| %>
+      <tr class="<%= cycle('odd', '') %>">
+        <td><%= user.username %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to 'Show', user %>
+          <%= link_to 'Edit', edit_user_path(user) %>
+          <%= link_to 'Destroy', user, :method => :delete, :confirm => 'Anda yakin?' %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

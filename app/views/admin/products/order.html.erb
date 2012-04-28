@@ -1,0 +1,24 @@
+<div class="panel">
+  <div class="header">&nbsp;</div>
+
+  <%= form_for([:admin, @ordered_product]) do |f| %>
+    <div class="main-content">
+      <div class="form">
+        <%= f.label 'Produk' %>&nbsp;
+        <%= f.hidden_field :product_id %><br/>
+        <div class="show"><%= @ordered_product.product.name %></div><br/>
+
+        <%= f.label 'Quantity' %>&nbsp;
+        <%= f.text_area :qty %><br/>
+
+        <%= f.label 'Deskripsi' %>&nbsp;
+        <%= f.text_area :description %><br/>
+      </div>
+    </div>
+  
+    <div class="footer">
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+</div>

@@ -1,0 +1,51 @@
+/*$caption_background : url("images/ui-bg_glass_25_cb842e_1x400.png");*/
+/*$main_border : #B85700;*/
+
+div.floating-menu
+{
+    position:fixed;
+/*    background:#fff4c8;*/
+    background:#ffffff;
+    /*    border:1px solid #ffcc00;*/
+    width:150px;
+    z-index:100;
+}
+
+div.floating-menu li
+{
+    list-style:none;
+}
+
+div.floating-menu a
+{
+    width: 150x;
+    padding:4px 8px 4px 8px;
+    border: 1px solid #ffcc00;
+    font:normal 12px verdana, arial, helvetica, sans-serif;
+    display:block;
+    /*    margin:0 1em;*/
+    color:black;
+    text-decoration:none;
+    @include rounded-corners(5px);
+    &:hover
+    {
+        background: url("images/ui-bg_glass_70_ede4d4_1x400.png") repeat-x scroll 50% 50% #EDE4D4;
+        border: 1px solid #CDC3B7;
+    }
+}
+
+div.floating-menu h3
+{
+    margin: 0px;
+    font:bold 12px verdana, arial, helvetica, sans-serif;
+    display:block;
+    color: #FFFFFF;
+    letter-spacing:20px;
+    text-transform:uppercase;
+    border: 1px solid $main_border;
+    background: $caption_background repeat-x scroll 50% 50% #CCCCCC;
+    padding:6px 4px 8px 0px;
+    width: 144px;
+    text-align:center;
+    @include rounded-corners(5px);
+}

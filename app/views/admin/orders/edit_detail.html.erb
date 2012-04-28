@@ -1,0 +1,9 @@
+<%= render :partial => 'admin/ordered_products/list', :locals => { :ordered_products => @ordered_products, :links => 'on' } %>
+<br/>
+
+<%= render :partial => 'search_products' %>
+<br/>
+
+<div class="table_list" id="products_table">
+  <%= render :partial => 'admin/products/products_table' %>
+</div>

@@ -1,0 +1,35 @@
+
+
+<div class="table_list" id="products_table">
+  <table width="100%">
+    <caption>Pembayaran</caption>
+    <thead>
+    <th>Besar Pembayaran</th>
+    <th>Tanggal Pembayaran</th>
+    <th>Tanggal Perubahan</th>
+    <th colspan="2"></th>
+    </thead>
+    <% total = 0 %>
+    <% @payments.each do |payment| %>
+      <% total += payment.amount %>
+      <tr class="<%= cycle('odd', '') %>">
+        <td class="right"><%= money_format(payment.amount) %></td>
+        <td><%= payment.created_at.strftime('%d-%m-%Y pada pukul %T') %></td>
+        <td><%= payment.updated_at.strftime('%d-%m-%Y pada pukul %T') %></td>
+        <td><%= link_to 'Ubah', edit_admin_payment_path(payment), :rel => 'facebox' %></td> <!-- product_stocks :index -->
+        <td><%= link_to 'Hapus', [:admin, payment], confirm: 'Apakah anda yakin ?', :method => :delete %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="right"><strong>Total : &nbsp;&nbsp;&nbsp;<%= money_format(total) %></strong></td>
+    </tr>
+  </table>
+</div>
+<br/>
+<div class="link">
+  <%= link_to('Tambah Pembayaran', new_admin_order_payment_path(@order), :rel => 'facebox') if total < @order.total_price %>
+  <%= link_to 'Kembali', payments_admin_orders_path %>
+</div>
+<br/>
+<%= render :partial => 'admin/orders/show' %>
+<%= render :partial => 'admin/ordered_products/list', :locals => { :ordered_products => @ordered_products, :links => 'off' } %>

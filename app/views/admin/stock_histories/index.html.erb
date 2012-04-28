@@ -1,0 +1,18 @@
+<div class="table_list">
+  <table width="100%">
+    <caption>Histori Stok</caption>
+    <thead>
+    <th>Stok Sebelum</th>
+    <th>Stok Setelah</th>
+    <th>Deskripsi</th>
+    </thead>
+
+    <% @stock_histories.each do |stock_history| %>
+      <tr class="<%= cycle('odd', '') %>">
+        <td><%= stock_history.old %></td>
+        <td><%= stock_history.new %></td>
+        <td><%= stock_history.description %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

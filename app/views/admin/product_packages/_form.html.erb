@@ -1,0 +1,20 @@
+<%= form_for([:admin, @product_package]) do |f| %>
+  <div class="main-content" style="width:500px">
+    <div class="form">
+      <%= render :partial => 'partials/error_messages', :locals => { :obj => @product_package } %>
+
+      <%= f.label 'Nama Paket Produk' %>
+      <div class="show"><%= @product.name %></div><br/>
+      <%= f.hidden_field :parent_id %>
+
+      <%= f.label 'Produk Terkait' %>
+      <%= f.select :child_id, options_from_collection_for_select(@products, :id, :name) %><br />
+
+      <%= f.label 'Pengurangan stok / paket' %>
+      <%= f.number_field :reduced_stocks, :size => 6, :class => 'align-right', :value => 1 %><br />
+    </div>
+  </div>
+  <div class="footer">
+    <%= f.submit 'Simpan' %>
+  </div>
+<% end %>

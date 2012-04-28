@@ -1,0 +1,18 @@
+<%= form_for([:admin, @payment]) do |f| %>
+  <div class="main-content">
+    <div class="form">
+      <%= render :partial => 'partials/error_messages', :locals => { :obj => @payment } %>
+
+      <%= f.label 'Sisa' %>
+      <div class="show"><%= @payment.remains %></div><br />
+      
+      <%= f.label 'Pembayaran' %>
+      <%= f.text_field :amount %><br />
+
+      <%= f.hidden_field :order_id %><br />
+    </div>
+  </div>
+  <div class="footer">
+    <%= f.submit 'Simpan' %>
+  </div>
+<% end %>

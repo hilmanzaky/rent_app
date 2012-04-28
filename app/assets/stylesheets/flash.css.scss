@@ -1,0 +1,44 @@
+$flash_notice_bg: url("images/ui-bg_highlight-hard_75_f5f5b5_1x100.png");
+$flash_error_bg: url("images/ui-bg_highlight-hard_65_fee4bd_1x100.png");
+$flash_icon: url("images/ui-icons_cb672b_256x240.png");
+
+.flash{
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 12px;
+    .notice{
+        background: $flash_notice_bg repeat-x scroll 50% top #F5F5B5;
+        border: 1px solid #D9BB73;
+        color: #060200;
+        padding: 0 10px;
+        @include rounded-corners(6px);
+        span{
+            background-image: $flash_icon;
+            background-position: -16px -144px;
+            float: left;
+            background-repeat: no-repeat;
+            display: block;
+            overflow: hidden;
+            text-indent: -99999px;
+            height: 16px;
+            width: 16px;
+        }
+    }
+    .error{
+        background: $flash_error_bg repeat-x scroll 50% top #FEE4BD;
+        border: 1px solid #F8893F;
+        color: #592003;
+        padding: 0 10px;
+        @include rounded-corners(6px);
+        span{
+            background-image: $flash_icon;
+            background-position: 0 -144px;
+            float: left;
+            background-repeat: no-repeat;
+            display: block;
+            overflow: hidden;
+            text-indent: -99999px;
+            height: 16px;
+            width: 16px;
+        }
+    }
+}

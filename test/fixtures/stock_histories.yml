@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  old: 1
+  new: 1
+  product_stock_id: 1
+  description: MyString
+
+two:
+  old: 1
+  new: 1
+  product_stock_id: 1
+  description: MyString

@@ -1,0 +1,34 @@
+<%= form_for([:admin, @product]) do |f| %>
+  <div class="main-content" style="width:600px">
+    <div class="form">
+      <%= render :partial => 'partials/error_messages', :locals => { :obj => @product } %>
+
+      <%= f.label 'Nama Barang' %>
+      <%= f.text_field :name %><br />
+
+      <%= f.label 'Dapat disewa' %>
+      <%= f.check_box :is_rented, :class => 'check-box' %>&nbsp;<br />
+
+      <%= f.label 'Paket Barang' %>
+      <%= f.check_box :is_package, :class => 'check-box' %>&nbsp;<br />
+
+      <%= f.label 'Barang Berdimensi' %>
+      <%= f.check_box :is_dimensional, :class => 'check-box' %>&nbsp;<br />
+
+      <%= f.label 'Deskripsi' %>
+      <%= f.text_area :description %><br />
+
+      <%= f.label 'Harga Baru' %>
+      <%= f.text_field :price %><br />
+
+      <%= f.label 'Harga Sewa' %>
+      <%= f.text_field :rent_price %><br />
+
+      <%= f.label 'Stok' %>
+      <div class="show"><%= @product.stock.to_i %></div><br />
+    </div>
+  </div>
+  <div class="footer">
+    <%= f.submit 'Simpan' %>
+  </div>
+<% end %>

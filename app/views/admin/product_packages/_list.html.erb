@@ -1,0 +1,23 @@
+<div  class="table_list">
+  <table width="100%">
+    <caption>Produk</caption>
+    <thead>
+      <th>Nama Produk</th>
+      <th>Deskripsi</th>
+      <th>Jumlah Sewa untuk Setiap Paket</th>
+      <th>Stok</th>
+      <th colspan="4"></th>
+    </thead>
+
+    <% product_packages.each do |product_package| %>
+      <% product = product_package.child %>
+      <tr class="<%= cycle('odd', '') %>">
+        <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= product_package.reduced_stocks %></td>
+        <td><%= product.stock %></td>
+        <td><%= link_to 'Hapus', admin_product_product_package_path(@product, product), confirm: 'Apakah anda yakin?', :method => :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

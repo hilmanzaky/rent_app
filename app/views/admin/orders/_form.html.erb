@@ -1,0 +1,59 @@
+<%= form_for([:admin, @order]) do |f| %>
+  <div class="main-content">
+    <div class="form">
+      <%= render :partial => 'partials/error_messages', :locals => { :obj => @order } %>
+
+      <%= f.label 'Pemesan' %>
+      <%= f.text_field :customer %><br />
+
+      <%= f.label 'Alamat' %>
+      <%= f.text_field :address %><br />
+
+      <%= f.label 'Telepon' %>
+      <%= f.text_field :phone %><br />
+
+      <%= f.label 'Tanggal Kirim' %>
+      <%= f.text_field :delivery_date, :size => '5', :maxlength => '10' %>
+      <button id="btn_delivery_date">...</button>
+      <script type="text/javascript">
+        //<![CDATA[
+        Calendar.setup({
+          inputField : "order_delivery_date",
+          trigger : "btn_delivery_date",
+          onSelect : function() { this.hide() },
+          dateFormat : "%Y-%m-%d"
+        });
+        //]]>
+      </script>
+      <br />
+
+      <%= f.label 'Tanggal Pakai' %>
+      <%= f.text_field :usage_date, :size => '5', :maxlength => '10' %>
+      <button id="btn_usage_date">...</button>
+      <script type="text/javascript">
+        //<![CDATA[
+        Calendar.setup({
+          inputField : "order_usage_date",
+          trigger : "btn_usage_date",
+          onSelect : function() { this.hide() },
+          dateFormat : "%Y-%m-%d"
+        });
+        //]]>
+      </script>
+      <br />
+
+      <%= f.label 'Jumlah Hari' %>
+      <%= f.number_field :duration_in_days %><br />
+
+      <%= f.label 'Ongkos Kirim' %>
+      <%= f.number_field :delivery_cost %>
+
+      <%= f.label 'Status Bayar' %>
+      <%= f.select :payment_status, [["", ""], ["Belum Bayar", "Belum Bayar"], ["Lunas", "Lunas"], ["Down Payment", "Down Payment"]] %><br />
+
+    </div>
+  </div>
+  <div class="footer">
+    <%= f.submit 'Simpan' %>
+  </div>
+<% end %>

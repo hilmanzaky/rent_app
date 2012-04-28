@@ -1,0 +1,42 @@
+/*
+* This is a manifest file that'll automatically include all the stylesheets available in this directory
+* and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+* the top of the compiled file, but it's generally better to create a new file per style scope.
+*= require_self
+*/
+
+@mixin rounded-corners($radius) {
+    border-radius: $radius;
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+}
+
+@mixin rounded-left-corners($radius) {
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+    -moz-top-left-border-radius: $radius;
+    -moz-bottom-left-border-radius: $radius;
+    -webkit-top-left-border-radius: $radius;
+    -webkit-bottom-left-border-radius: $radius;
+}
+
+@mixin rounded-right-corners($radius) {
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+    -moz-top-right-border-radius: $radius;
+    -moz-bottom-right-border-radius: $radius;
+    -webkit-top-right-border-radius: $radius;
+    -webkit-bottom-right-border-radius: $radius;
+}
+
+@import "table_list.css.scss";
+@import "panel.css.scss";
+@import "jscal/jscal2.css.scss";
+@import "jscal/border-radius.css.scss";
+@import "jscal/gold/gold.css.scss";
+@import "form_error.css.scss";
+@import "button.css.scss";
+@import "flash.css.scss";
+@import "left_float_menu.css.scss";
+
+/*@import "jscal/reduce-spacing.css.scss";*/

@@ -1,0 +1,29 @@
+<%= form_tag admin_returned_products_path do %>
+  <div  class="table_list">
+    <table width="100%">
+      <caption>Produk yang disewa</caption>
+      <thead>
+      <th>Nama Barang</th>
+      <th>Disewa</th>
+      <th>Telah Kembali</th>
+      <th>Dikembalikan</th>
+      </thead>
+
+      <% @rented_products.each do |rp| %>
+        <tr class="<%= cycle('odd', '') %>">
+          <td><%= rp.product.name %></td>
+          <td><%= rp.rented_qty %></td>
+          <td><%= rp.return_qty %></td>
+          <td>
+            <%= hidden_field_tag 'rented_product[][rented_product_id]', rp.id  %>
+            <%= text_field_tag 'rented_product[][return_qty]' %>
+          </td>
+        </tr>
+      <% end %>
+
+    </table>
+  </div>
+  <%= submit_tag 'Simpan' %>
+<% end %>
+
+<%#= form_tag  %>

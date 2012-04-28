@@ -1,0 +1,28 @@
+<div class="panel">
+  <div class="header">
+    Sign Up
+  </div>
+
+  <%= form_for [:admin, @user] do |f| %>
+    <div class="main-content">
+      <div class="form">
+        <%= render :partial => 'partials/error_messages', :locals => { :obj => @user } %>
+
+        <%= f.label :username %>&nbsp;
+        <%= f.text_field :username %><br/>
+
+        <%= f.label :email %>&nbsp;
+        <%= f.text_field :email %><br/>
+
+        <%= f.label :password %>&nbsp;
+        <%= f.password_field :password %><br/>
+
+        <%= f.label :password_confirmation %>&nbsp;
+        <%= f.password_field :password_confirmation %><br/>
+      </div>
+    </div>
+    <div class="footer">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>

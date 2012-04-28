@@ -1,0 +1,39 @@
+<%= render :partial => 'admin/products/show', :locals => { :product => @product } %>
+
+<br/>
+
+<div class="link">
+  <%= link_to 'Kembali', admin_products_path %>
+</div>
+
+<br/>
+
+<div class="link">
+  <%= link_to 'Tambah stok', new_admin_product_product_stock_path(@product), :rel => 'facebox' %>
+</div>
+
+<br/>
+
+<div class="table_list" style="width:50%">
+  <table width="100%">
+    <caption>Stok</caption>
+    <thead>
+    <th colspan="2"></th>
+    <th>Stok</th>
+    </thead>
+    <% total_stock = 0 %>
+    <% @product_stocks.each do |product_stock| %>
+      <% total_stock += product_stock.stock %>
+      <tr class="<%= cycle('odd', '') %>">
+        <td><%= link_to 'Edit', edit_admin_product_stock_path(product_stock), :rel => 'facebox' %></td> <!-- stock_histories :index -->
+        <td><%= link_to 'Histori Stok', admin_product_stock_stock_histories_path(product_stock), :rel => 'facebox' %></td> <!-- stock_histories :index -->
+        <td class="right"><%= product_stock.stock %></td>
+      </tr>
+    <% end %>
+      <tr>
+        <td colspan="2" class="right"><strong>Total Stok Keseluruhan</strong></td>
+        <td class="right"><%= total_stock %></td>
+      </tr>
+  </table>
+</div>
+

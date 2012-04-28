@@ -1,0 +1,43 @@
+<div  class="table_list">
+  <table width="100%">
+    <caption>Order</caption>
+    <thead>
+    <th>Customer</th>
+    <th>Address</th>
+    <th>Phone</th>
+    <th>Delivery date</th>
+    <th>Usage date</th>
+    <th>Duration in days</th>
+    <th>Total price per day</th>
+    <th>Total price</th>
+    <th>Payment status</th>
+    <th>User</th>
+    <th colspan="5"></th>
+    </thead>
+
+    <% @orders.each do |order| %>
+      <tr class="<%= cycle('odd', '') %>">
+        <td><%= order.customer %></td>
+        <td><%= order.address %></td>
+        <td><%= order.phone %></td>
+        <td><%= order.delivery_date %></td>
+        <td><%= order.usage_date %></td>
+        <td class="right"><%= order.duration_in_days %></td>
+        <td class="right"><%= money_format(order.total_price_per_day) %></td>
+        <td class="right"><%= money_format(order.total_price) %></td>
+        <td><%= order.payment_status %></td>
+        <td><%= order.user.username %></td>
+        <td><%= link_to 'Lihat', [:admin, order] %></td>
+        <td><%= link_to 'Ubah / Tambah Barang', admin_order_edit_detail_path(order) %></td>
+        <td><%= link_to 'Ubah Data Pengiriman', edit_admin_order_path(order) %></td>
+        <td><%= link_to 'Pembayaran', admin_order_payments_path(order) %></td>
+        <td><%= link_to 'Pengembalian', admin_order_rented_products_path(order) %></td>
+
+  <%#*<td>%>
+  <%#= link_to 'Hapus', [:admin, order], confirm: 'Are you sure?', method: :delete %>
+  <%#*</td>%>
+      </tr>
+    <% end %>
+
+  </table>
+</div>

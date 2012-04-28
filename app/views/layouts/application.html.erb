@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BlackstarRentApp</title>
+    <%= stylesheet_link_tag    "application" %>
+    <%= stylesheet_link_tag "jquery.facebox.css" %>
+    <%= javascript_include_tag "application" %>
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <table width="100%">
+      <tr>
+        <td width="15%" valign="top">
+          <%= render :partial => 'layouts/admin_menu' %>
+        </td>
+        <td width="70%">
+          <%= render :partial => 'layouts/flash', :locals => { :flash => flash } %>
+          <%= yield %>
+        </td>
+        <td width="15%">
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

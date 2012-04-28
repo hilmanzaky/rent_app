@@ -1,0 +1,25 @@
+<div class="panel">
+  <div class="header">
+    Detail Barang
+  </div>
+  <div class="main-content">
+    <div class="form">
+      <label>Nama Barang</label>
+      <div class="show"><%= product.name %></div><br/>
+
+      <label>Deskripsi</label>
+      <div class="show"><%= product.description %>&nbsp;</div><br/>
+
+      <% unless product.is_package? %>
+        <label>Harga Baru</label>
+        <div class="show"><%= product.price %></div><br/>
+      <% end %>
+        
+      <label>Harga Sewa</label>
+      <div class="show"><%= product.rent_price %></div><br/>
+
+      <label>Stok</label>
+      <div class="show"><%= product.stock %></div><br/>
+    </div>
+  </div>
+</div>

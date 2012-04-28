@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  parent_id: 1
+  child_id: 1
+  reduced_stocks: 1
+
+two:
+  parent_id: 1
+  child_id: 1
+  reduced_stocks: 1

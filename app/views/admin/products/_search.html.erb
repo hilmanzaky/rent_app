@@ -1,0 +1,18 @@
+<div class="panel">
+  <div class="header">
+    Cari Barang
+  </div>
+
+  <%= form_tag admin_products_path, :method => :get, :remote => true do %>
+    <div class="main-content">
+      <div class="form">
+        <%= label_tag 'Nama Barang' %>
+        <%= text_field_tag :name %>
+      </div>
+    </div>
+
+    <div class="footer">
+      <%= submit_tag 'Cari', :id => 'search_button' %>
+    </div>
+  <% end %>
+</div>

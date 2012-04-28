@@ -1,0 +1,159 @@
+$main_background: url("images/ui-bg_inset-soft_100_f4f0ec_1x100.png");
+$header_background: url("images/ui-bg_glass_25_cb842e_1x400.png");
+/* label */
+$label_background: url("images/ui-bg_highlight-hard_75_f5f5b5_1x100.png");
+$label_border_color: #B85700;
+$label_width: 160px;
+/* textfield */
+$input_background: #FFFFFF;
+$input_hoover_background: lighten(#F5AD66, 15%);
+$input_focus_background: lighten(#F5AD66, 15%);
+$input_border_color: gray;
+$margin_between_label_and_content: 8px;
+
+.panel {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+/*    width: 600px;*/
+    background: $main_background repeat-x scroll 50% bottom #F4F0EC;
+    border: 1px solid #E0CFC2;
+    color: #1E1B1D;
+    font:normal 12px verdana, arial, helvetica, sans-serif;
+    @include rounded-corners(10px);
+    .header {
+        background: $header_background repeat-x scroll 50% 50% #CB842E;
+        border: 1px solid #B85700;
+        color: #FFFFFF;
+        font-weight: bold;
+        margin: 2px;
+        padding: 6px 4px 8px 30px;
+        letter-spacing:20px;
+        text-transform:uppercase;
+        @include rounded-corners(6px);
+    }
+    .main-content {
+        padding : 20px 20px 20px 15px;
+        .form {
+            label {
+                margin-top: 2px;
+                background: $label_background repeat-x scroll 50% top #F5F5B5;
+                /*                display: inline;*/
+                float:left;
+                width: $label_width;
+                text-align: right;
+                padding: 5px 10px;
+                border: solid 1px $label_border_color;
+                height: 15px;
+                @include rounded-left-corners(6px);
+            }
+            .show, input {
+                margin-top: 2px;
+                margin-left: $margin_between_label_and_content;
+                padding: 5px 10px;
+                border: solid 1px $input_border_color;
+                background: $input_background;
+                height: 15px;
+                @include rounded-right-corners(6px);
+                &:hover{
+                    background: $input_hoover_background;
+                }
+                &:focus{
+                    background: $input_focus_background;
+                }
+            }
+            .check-box{
+                margin-top:9px;
+                margin-bottom:6px;
+                }
+            .align-right{
+                text-align: right;
+            }
+            textarea {
+                margin-top: 2px;
+                margin-left: $margin_between_label_and_content;
+                padding: 5px 10px;
+                border: solid 1px $input_border_color;
+                background: $input_background;
+                height: 100px;
+                font:normal 12px verdana, arial, helvetica, sans-serif;
+                @include rounded-right-corners(6px);
+                &:hover{
+                    background: $input_hoover_background;
+                }
+                &:focus{
+                    background: $input_focus_background;
+                }
+            }
+            select {
+                margin-top: 2px;
+                margin-left: $margin_between_label_and_content;
+/*                padding: 5px 10px;*/
+                padding: 3px 10px 3px 10px;
+                border: solid 1px $input_border_color;
+                background: $input_background;
+                height: 27px;
+                @include rounded-right-corners(6px);
+                &:hover{
+                    background: $input_hoover_background;
+                }
+                &:focus{
+                    background: $input_focus_background;
+                }
+            }
+            .show {
+                margin-top: 2px;
+                margin-left: $margin_between_label_and_content;
+                display: inline-block;
+                padding: 5px 10px;
+                border: solid 1px $input_border_color;
+                background: transparent;
+                height: 15px;
+                font: normal 12px verdana, arial, helvetica, sans-serif;
+                @include rounded-right-corners(6px);
+            }
+            .clear{
+                clear: both;
+            }
+            .calendar-btn {
+
+                background: url("images/ui-bg_glass_70_ede4d4_1x400.png") repeat-x scroll 50% 50% #EDE4D4;
+                border: 1px solid #CDC3B7;
+                color: #3F3731;
+                font-weight: normal;
+                /*                width: 15px;*/
+                vertical-align: middle;
+                height: 20px;
+                @include rounded-corners(6px);
+                /* span{
+                float: left;
+                background-image: url("images/ui-icons_f08000_256x240.png");
+                background-position: -32px -112px;
+                height: 14px;
+                width: 14px;
+                } */
+            }
+        }
+    }
+    .footer {
+        background-image: none;
+        /*        margin: 0.5em 0 0;*/
+        padding: 0.3em 1em 0.5em 0.4em;
+        margin: 3px;
+        text-align: center;
+        background: url("images/ui-bg_inset-soft_100_f4f0ec_1x100.png") repeat-x scroll 50% bottom #F4F0EC;
+        border: 1px solid #E0CFC2;
+        border-width: 1px 0 0;
+        color: #1E1B1D;
+        input, button {
+            background: url("images/ui-bg_glass_70_ede4d4_1x400.png") repeat-x scroll 50% 50% #EDE4D4;
+            border: 1px solid #CDC3B7;
+            color: #3F3731;
+            font-weight: normal;
+            padding:3px 10px 3px 10px;
+            @include rounded-corners(5px);
+            &:hover {
+                background: url("images/ui-bg_glass_100_f5f0e5_1x400.png") repeat-x scroll 50% 50% #F5F0E5;
+                border: 1px solid #F5AD66;
+            }
+        }
+    }
+}

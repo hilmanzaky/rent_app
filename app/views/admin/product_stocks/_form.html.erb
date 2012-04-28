@@ -1,0 +1,20 @@
+<%= form_for([:admin, @product_stock]) do |f| %>
+  <div class="main-content">
+    <div class="form">
+      <%= render :partial => 'partials/error_messages', :locals => { :obj => @product_stock } %>
+
+      <%= f.label 'stok' %>
+      <%= f.number_field :stock %><br />
+
+      <%= f.hidden_field :product_id %>
+
+      <% unless @product_stock.id.blank? %>
+        <%= f.label :deskripsi %>
+        <%= text_area_tag :description %><br />
+      <% end %>
+    </div>
+  </div>
+  <div class="footer">
+    <%= f.submit 'Simpan' %>
+  </div>
+<% end %>

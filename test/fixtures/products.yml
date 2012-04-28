@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  price: 9.99
+  rent_price: 9.99
+  stock: 1
+
+two:
+  name: MyString
+  description: MyString
+  price: 9.99
+  rent_price: 9.99
+  stock: 1

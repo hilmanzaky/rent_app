@@ -1,0 +1,40 @@
+<%= form_for([:admin, @ordered_product]) do |f| %>
+  <div class="main-content" style="width:600px">
+    <div class="form">
+      <%= render :partial => 'partials/error_messages', :locals => { :obj => @ordered_product } %>
+
+      <%= f.label 'Barang' %>
+      <div class="show">
+        <%= @ordered_product.product.name %>
+      </div><br/>
+
+      <% if @product.is_dimensional? %>
+        <%= f.label 'ukuran' %>
+        <%= f.number_field :width, :size => 1 %> &nbsp;&nbsp;&times;
+        <%= f.number_field :height, :size => 1 %><br />
+      <% else %>
+        <%= f.label 'banyaknya' %>
+        <%= f.number_field :qty %><br />
+      <% end %>
+      <%= f.label 'keterangan' %>
+      <%= f.text_area :description %><br />
+
+      <%= f.hidden_field :product_id %>
+
+      <%= f.hidden_field :order_id %>
+
+    </div>
+    <% if @product.is_package? and @product.is_dimensional? %>
+    <div class="form">
+      <% @product_packages.each do |p| %>
+        <label>jml <%= p.name %></label>
+        <%= text_field_tag "product_packages[#{p.id}][qty]", '', :size => 6 %><br/>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="footer">
+    <%= f.submit 'Simpan' %>
+  </div>
+<% end %>
