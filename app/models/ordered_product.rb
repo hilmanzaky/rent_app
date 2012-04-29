@@ -55,19 +55,27 @@ class OrderedProduct < ActiveRecord::Base
     end
   end
 
-  def complex_triggered_update(temp_ordered_product, product_packages)
+  def complex_triggered_update(temp_ordered_product, rp)
     success = true
     product = self.product
     err_msg = []
-    #    rented_products = []
+    rented_products = []
     return_url = ""
     OrderedProduct.transaction do
       if product.is_package? # if package then of course take a loop as many products contained in it
-        products = product.childs.joins('LEFT JOIN products p ON product_packages.child_id = p.id').
-          select('product_packages.id, child_id, reduced_stocks, p.name, stock')
+        products = product.childs.joins("LEFT JOIN products p ON product_packages.child_id = p.id
+                                         LEFT JOIN (SELECT product_id, rented_qty
+                                                    FROM rented_products
+                                                    WHERE ordered_product_id = #{self.id}) rp ON product_packages.child_id = rp.product_id").
+          select('product_packages.id, child_id, reduced_stocks, p.name, stock, rented_qty')
         products.each do |p|
+          #          p "1 #{p.rented_qty}"
           if product.is_dimensional?
-            total_reduced_stocks = p.reduced_stocks * (self.qty - product_packages["#{p.child_id}"]["qty"].to_i)
+            if p.rented_qty.blank?
+              total_reduced_stocks = p.reduced_stocks * rp["#{p.child_id}"]["rented_qty"].to_i
+            else
+              total_reduced_stocks = p.rented_qty - (p.reduced_stocks * rp["#{p.child_id}"]["rented_qty"].to_i)
+            end
           else
             total_reduced_stocks = p.reduced_stocks * (self.qty - temp_ordered_product[:qty].to_i)
           end
@@ -77,15 +85,25 @@ class OrderedProduct < ActiveRecord::Base
               err_msg << "Stok #{p.name} tidak mencukupi"
             else
               if success
-                rented_product = RentedProduct.where("ordered_product_id = ? AND product_id = ?",self.id, p.child_id).first
-                rented_product.update_attribute(:rented_qty, rented_product.rented_qty - total_reduced_stocks)
-                p.child.update_attribute(:stock, p.stock + total_reduced_stocks) # stok sekarang - total qty lama + total qty baru
+                if p.rented_qty.blank?
+                  p.child.update_attribute(:stock, p.stock - total_reduced_stocks)
+                  rented_products << { :product_id => p.child_id,
+                    :order_id => self.order_id,
+                    :rented_qty => total_reduced_stocks,
+                    :ordered_product_id => self.id
+                  }
+                else
+                  rented_product = RentedProduct.where("ordered_product_id = ? AND product_id = ?",self.id, p.child_id).first
+                  rented_product.update_attribute(:rented_qty, rented_product.rented_qty - total_reduced_stocks)
+                  p.child.update_attribute(:stock, p.stock + total_reduced_stocks) # stok sekarang - total qty lama + total qty baru
+                end
               end
             end
           end
         end
 
         if success
+          RentedProduct.create(rented_products)
           if product.is_dimensional?
             temp_ordered_product[:sub_total] = self.rent_price * temp_ordered_product[:width].to_f * temp_ordered_product[:height].to_f
           else
@@ -113,7 +131,7 @@ class OrderedProduct < ActiveRecord::Base
   end
 
   # coba save dengan metode baru yang lebih efisien
-  def complex_triggered_save(user_id, product_packages)
+  def complex_triggered_save(user_id, rp)
     success = true
     product = self.product
     err_msg = []
@@ -125,7 +143,7 @@ class OrderedProduct < ActiveRecord::Base
           select('product_packages.id, child_id, reduced_stocks, p.name, stock')
         products.each do |p|
           if product.is_dimensional?
-            total_reduced_stocks = p.reduced_stocks * product_packages["#{p.child_id}"]["qty"].to_i
+            total_reduced_stocks = p.reduced_stocks * rp["#{p.child_id}"]["rented_qty"].to_i
           else
             total_reduced_stocks = p.reduced_stocks * self.qty # menghitung total qty barang yang akan berkurang
           end

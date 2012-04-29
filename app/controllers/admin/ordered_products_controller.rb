@@ -37,7 +37,13 @@ class Admin::OrderedProductsController < ApplicationController
     @ordered_product = OrderedProduct.new(:product_id => params[:product_id], :order_id => params[:order_id],
       :qty => 1)
     if @product.is_dimensional? and @product.is_package?
-      @product_packages = @product.direct_childs
+#      @product_packages = @product.direct_childs
+      @rented_products = RentedProduct.find_by_sql("SELECT product_id as id, name, NULL as rented_qty
+                                                    FROM
+                                                      (SELECT child_id as product_id
+                                                       FROM product_packages
+                                                       WHERE parent_id = #{params[:product_id]}) childs
+                                                    LEFT JOIN products p ON childs.product_id = p.id")
     end
     render layout: false
   end
@@ -47,10 +53,19 @@ class Admin::OrderedProductsController < ApplicationController
     @ordered_product = OrderedProduct.find(params[:id])
     @product = @ordered_product.product
     if @product.is_dimensional? and @product.is_package?
-      @product_packages = @product.direct_childs.joins("LEFT JOIN (SELECT product_id, rented_qty
-                                                                   FROM rented_products
-                                                                   WHERE ordered_product_id = 25) rp ON product_packages.id = rp.product_id")
-      .select("product_packages.id, name, rented_qty")
+      #      @product_packages = @product.direct_childs.joins("LEFT JOIN (SELECT product_id, rented_qty
+      #FROM rented_products
+      #WHERE ordered_product_id = 34) rp ON product_packages.child_id = rp.product_id#")
+      #      .select("product_packages.id, name, rented_qty as qty")
+      @rented_products = RentedProduct.find_by_sql("SELECT p.id, p.name, rented_qty
+                                                    FROM
+                                                      (SELECT child_id as product_id
+                                                       FROM product_packages
+                                                       WHERE parent_id = #{@product.id}) childs
+                                                      LEFT JOIN (SELECT product_id, rented_qty
+                                                                 FROM rented_products
+                                                                 WHERE ordered_product_id = #{@ordered_product.id}) rp ON childs.product_id = rp.product_id
+                                                      LEFT JOIN products p ON childs.product_id = p.id")
     end
     render layout: false
   end
@@ -59,10 +74,10 @@ class Admin::OrderedProductsController < ApplicationController
   # POST /ordered_products.json
   def create
     @ordered_product = OrderedProduct.new(params[:ordered_product])
-    product_packages = params['product_packages'] ? params['product_packages'] : {}
+    rented_products = params['rented_products'] ? params['rented_products'] : {}
     #    p product_packages
     respond_to do |format|
-      format.html { redirect_to @ordered_product.complex_triggered_save(current_user.id, product_packages) }
+      format.html { redirect_to @ordered_product.complex_triggered_save(current_user.id, rented_products) }
     end
   end
 
@@ -71,9 +86,10 @@ class Admin::OrderedProductsController < ApplicationController
   # PUT /ordered_products/1.json
   def update
     @ordered_product = OrderedProduct.find(params[:id])
+    rented_products = params['rented_products'] ? params['rented_products'] : {}
 
     respond_to do |format|
-      format.html { redirect_to @ordered_product.complex_triggered_update(params[:ordered_product])}
+      format.html { redirect_to @ordered_product.complex_triggered_update(params[:ordered_product], rented_products)}
     end
   end
   

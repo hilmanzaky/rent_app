@@ -22,15 +22,15 @@
       <%= f.hidden_field :product_id %>
 
       <%= f.hidden_field :order_id %>
-
     </div>
+    
     <% if @product.is_package? and @product.is_dimensional? %>
-    <div class="form">
-      <% @product_packages.each do |p| %>
-        <label>jml <%= p.name %></label>
-        <%= text_field_tag "product_packages[#{p.id}][qty]", '', :size => 6 %><br/>
-      <% end %>
-    </div>
+      <div class="form">
+        <% @rented_products.each do |rp| %>
+          <label>jml <%= rp.name %></label>
+          <%= text_field_tag "rented_products[#{rp.id}][rented_qty]", rp.rented_qty, :size => 6 %><br/>
+        <% end %>
+      </div>
     <% end %>
   </div>
 
