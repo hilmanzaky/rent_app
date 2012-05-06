@@ -14,6 +14,7 @@ class Admin::OrdersController < ApplicationController
   # GET /orders/1.json
   def show
     @order = Order.joins('LEFT JOIN users ON orders.user_id = users.id').find(params[:id])
+    @ordered_products = @order.ordered_products
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,27 +42,37 @@ class Admin::OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
+    success = false
     @order = Order.new(params[:order])
     @order.user_id = current_user.id
     @order.total_price_per_day = get_total_price_per_day # function from order model
     @order.total_price = @order.total_price_per_day * @order.duration_in_days + @order.delivery_cost
 
     respond_to do |format|
-      Order.transaction do
-        if @order.save
+      begin
+        Order.transaction do
+          @order.save
           @ordered_products = OrderedProduct.get_new_ordered_products(current_user.id)
-          if @ordered_products.update_all("order_id = #{@order.id}")
-            format.html { redirect_to admin_products_path, notice: 'Order was successfully created.' }
-          else
-            format.html { render action: "new" }
-            format.json { render json: @order.errors, status: :unprocessable_entity }
-          end
-        else
-          format.html { render action: "new" }
-          format.json { render json: @order.errors, status: :unprocessable_entity }
+          @ordered_products.update_all("order_id = #{@order.id}")
+          @ordered_products.each { |op| op.rented_products.update_all("order_id = #{@order.id}") }
         end
+        format.html { redirect_to admin_order_path(@order), notice: 'Pesanan telah berhasil disimpan' }
+      rescue ActiveRecord::RecordInvalid => invalid
+        format.html { render action: "new" }
       end
     end
+    #        if @order.save
+    #          @ordered_products = OrderedProduct.get_new_ordered_products(current_user.id)
+    #          if @ordered_products.update_all("order_id = #{@order.id}")
+    #            format.html { redirect_to admin_products_path, notice: 'Order was successfully created.' }
+    #          else
+    #            format.html { render action: "new" }
+    #            format.json { render json: @order.errors, status: :unprocessable_entity }
+    #          end
+    #        else
+    #          format.html { render action: "new" }
+    #          format.json { render json: @order.errors, status: :unprocessable_entity }
+    #        end
   end
 
   # PUT /orders/1
@@ -104,10 +115,10 @@ class Admin::OrdersController < ApplicationController
     end
   end
 
-#  def return_of_products
-#    @order = Order.find(params[:order_id])
-#    @ordered_products = @order.ordered_products
-#  end
+  #  def return_of_products
+  #    @order = Order.find(params[:order_id])
+  #    @ordered_products = @order.ordered_products
+  #  end
 
   def payments
     @orders = Order.where("payment_status != 'Lunas'").joins('LEFT JOIN users ON orders.user_id = users.id')
