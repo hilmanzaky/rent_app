@@ -17,4 +17,9 @@ module ApplicationHelper
     triple.each{|x|hasil = terbilang(angka.divmod(x[1])[0])+x[0]+' '+terbilang(angka.divmod(x[1])[1]) if angka>=x[2] and angka<x[3]}
     hasil
   end
+
+  def date_format_id(date)
+    bulan = [''] + %w{Januari Februari Maret April Mei Juni Juli Agustus September Oktober November Desember}
+    "#{date.strftime("%d")} - #{bulan[date.strftime("%m").to_i]} - #{date.strftime("%Y")}"
+  end
 end
