@@ -30,6 +30,9 @@ BlackstarRentApp::Application.routes.draw do
       collection do
         get 'payments'
       end
+
+      get 'print_original'
+      get 'print'
 #      get 'return_of_products'
 #      resources :return_products, :only => [:new]
       resources :payments, :only => [:index, :new]

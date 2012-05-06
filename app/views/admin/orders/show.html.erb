@@ -3,3 +3,9 @@
 <br/>
 
 <%= render :partial => 'admin/ordered_products/list', :locals => { :ordered_products => @ordered_products, :links => 'off' } %>
+
+<br/>
+
+<div class="link">
+  <%= link_to 'Print', "JavaScript:newPopup('#{admin_order_print_path(@order)}');" %>
+</div>

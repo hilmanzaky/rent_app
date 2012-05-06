@@ -1,0 +1,36 @@
+<div class="panel">
+  <div class="header">
+    Data Pemesanan
+  </div>
+  <div class="main-content">
+    <div class="form">
+      <table width="100%">
+        <tr>
+          <td>
+            <label>Pemesan</label>
+            <div class="show"><%= @order.customer %></div><br/>
+
+            <label>Alamat</label>
+            <div class="show"><%= @order.address %>&nbsp;</div><br/>
+
+            <label>Telepon</label>
+            <div class="show"><%= @order.phone %></div><br/>
+          </td>
+          <td>
+            <label>No.</label>
+            <div class="show"><%= @order.id %></div><br/>
+
+            <label>Tanggal Kirim</label>
+            <div class="show"><%= date_format_id(@order.delivery_date) %></div><br/>
+
+            <label>Tanggal Pakai</label>
+            <div class="show"><%= date_format_id(@order.usage_date) %></div><br/>
+
+            <label>Durasi (per hari)</label>
+            <div class="show"><%= @order.duration_in_days %></div><br/>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

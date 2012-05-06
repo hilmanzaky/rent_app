@@ -124,6 +124,17 @@ class Admin::OrdersController < ApplicationController
     @orders = Order.where("payment_status != 'Lunas'").joins('LEFT JOIN users ON orders.user_id = users.id')
   end
 
+  def print
+    @order = Order.find(params[:order_id])
+    @ordered_products = @order.ordered_products
+    @payments = @order.payments
+
+#    respond_to do |format|
+#      format.html
+#    end
+    render layout: 'print'
+  end
+
   private
   def get_total_price_per_day
     OrderedProduct.where(:user_id => current_user.id).sum(:sub_total)

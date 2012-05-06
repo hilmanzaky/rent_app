@@ -1,0 +1,61 @@
+<div class="table_list">
+  <table width="100%">
+    <caption>Perincian Sewa</caption>
+    <thead>
+    <th>Banyaknya</th>
+    <th>Nama Barang</th>
+    <th>Harga</th>
+    <th>Jumlah Harga</th>
+    </thead>
+    <% @ordered_products.each do |ordered_product| %>
+      <tr class="<%= cycle('odd', '') %>">
+        <% if ordered_product.product.is_dimensional? %>
+          <td class="right"><%= "#{ordered_product.width * ordered_product.height} " %> m&sup2; <%=  " (#{ordered_product.width} "%> &times; <%=" #{ordered_product.height})" %></td>
+        <% else %>
+          <td class="right"><%= ordered_product.qty %></td>
+        <% end %>
+        <td><%= ordered_product.product.name %></td>
+        <td class="right"><%= money_format(ordered_product.rent_price) %></td>
+        <% if ori %>
+          <td class="right"><%= money_format(ordered_product.ori_sub_total) %></td>
+        <% else %>
+          <td class="right"><%= money_format(ordered_product.sub_total) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="right" colspan="3"><b>Jumlah Harga / Hari</b></td>
+      <td class="right"><b><%= money_format(@order.total_price_per_day) %></b></td>
+    </tr>
+    <tr>
+      <td class="right" colspan="3"><b>Ongkos Kirim</b></td>
+      <td class="right"><b><%= money_format(@order.delivery_cost) %></b></td>
+    </tr>
+    <tr>
+      <td class="right" colspan="3"><b>Jumlah Untuk <%= @order.duration_in_days %> Hari + Ongkos Kirim</b></td>
+      <td class="right"><b><%= money_format(@order.total_price) %></b></td>
+    </tr>
+    <tr>
+      <td class="right" colspan="3"><b>Pembayaran</b></td>
+      <td class="right">
+        <b>
+          <% sum_amount = 0 %>
+          <ul>
+            <% @payments.each do |payment| %>
+              <li><%= money_format(payment.amount) %></li>
+              <% sum_amount += payment.amount %>
+            <% end %>
+          </ul>
+        </b>
+      </td>
+    </tr>
+    <tr>
+      <td class="right" colspan="3"><b>Sisa</b></td>
+      <td class="right"><b><%= money_format(@order.total_price - sum_amount) %></b></td>
+    </tr>
+    <tr>
+      <td><b>Terbilang</b></td>
+      <td colspan="5"><b><%= terbilang(@order.total_price - sum_amount) %> rupiah</b></td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,86 @@
+$caption_background : #FFFFFF;
+$main_border : #000000;
+$caption_color : #000000;
+$thead_background : #FFFFFF;
+$thead_color : #000000;
+$hoover_background : #FFFFFF;
+$hoover_border : #000000;
+$inner_border : #000000;
+$content_background : #FFFFFF;
+
+.table_list {
+    table {
+        background:transparent;
+        border:1px solid $main_border;
+        border-collapse:collapse;
+/*        color:#fff;*/
+        font:normal 12px verdana, arial, helvetica, sans-serif;
+    }
+    caption {
+        background: $caption_background repeat-x scroll 50% 50% #CCCCCC;
+        border: 1px solid $main_border;
+        @include rounded-corners(4px);
+        /*        -moz-border-radius: 4px 4px 4px 4px;*/
+        /*    border:1px solid #5C443A;*/
+        color:$caption_color;
+        font-weight:bold;
+        letter-spacing:10px;
+        padding:6px 4px 8px 0px;
+        text-align:center;
+        text-transform:uppercase;
+    }
+    td, th {
+        color:#000000;
+        padding:.4em;
+        border:1px dotted $inner_border;
+    }
+    tr {
+        border:1px dotted gray;
+    }
+    thead th, tfoot th {
+        font-weight:bold;
+        background:$thead_background;
+        color:$thead_color;
+        padding:3px 10px 3px 10px;
+        text-transform:uppercase;
+    }
+    tbody {
+        background:$content_background repeat-x scroll 50% bottom #F4F0EC;
+        td+td+td+td a {
+            /*            background-image:url('bullet_blue.png');*/
+/*            background-position:left center;*/
+            background-repeat:no-repeat;
+            color:#03476F;
+            /*    padding-left:15px;*/
+            &:visited {
+                /*                    background-image:url('bullet_white.png');*/
+                background-position:left center;
+                background-repeat:no-repeat;
+            }
+        }
+        th, td {
+            text-align:left;
+            vertical-align:center;
+
+        }
+        tr:hover {
+            /*            background:#99BCBF;*/
+            background:$hoover_background;
+            border:1px solid $hoover_border;
+        }
+        .right{
+            text-align: right;
+        }
+        .center{
+            text-align: center;
+            }
+    }
+
+    tfoot{
+        td {
+            background:#5C443A;
+            color:#FFFFFF;
+            padding-top:3px;
+        }
+    }
+}

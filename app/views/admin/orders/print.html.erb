@@ -1,0 +1,45 @@
+<table width="100%">
+  <tr>
+    <td style="text-align: center">
+      <%= image_tag("Logo.jpg", :size => '100x100') %><br/>
+      <b>H A Y A T</b>
+    </td>
+    <td><%= render :partial => 'print_order' %></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= render :partial => 'print_ordered_products', :locals => { :ori => false } %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><br/></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <table class="normal_text" width="100%">
+        <tr>
+          <td width="56%">
+            CATATAN :
+            <ol>
+              <li>Hilang/Cacat/Rusak, diganti penuh oleh penyewa.</li>
+              <li>Membatalkan/tidak diambil, uang muka hapus.</li>
+              <li>Barang kembali dari tanggal yang telah ditentukan pembayaran diperhitungkan kembali.</li>
+            </ol>
+          </td>
+          <td width="10%"></td>
+          <td style="text-align: center">
+            Bandung, <%= date_format_id(Time.now) %>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <b>HAYAT</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
