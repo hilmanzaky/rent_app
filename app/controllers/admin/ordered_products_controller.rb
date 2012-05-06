@@ -92,6 +92,14 @@ class Admin::OrderedProductsController < ApplicationController
       format.html { redirect_to @ordered_product.complex_triggered_update(params[:ordered_product], rented_products)}
     end
   end
+
+  def set_sub_total
+    new_sub_total = (params["fixnum"] || {})["to_f"]
+    @ordered_product = OrderedProduct.find(params[:id])
+    if @ordered_product.update_attribute(:sub_total, new_sub_total)
+      head :ok
+    end
+  end
   
   # fix version with no errors
   #  def create
@@ -255,19 +263,19 @@ class Admin::OrderedProductsController < ApplicationController
     #    p params
   end
 
-  private
-  def set_up_ordered_product_for_create
-    @ordered_product.user_id = current_user.id
-    @ordered_product.price = @ordered_product.product.price
-    @ordered_product.rent_price = @ordered_product.product.rent_price
-    @ordered_product.sub_total = @ordered_product.rent_price * @ordered_product.qty
-  end
-
-  def change_order_total
-    @order = @ordered_product.order
-    order = {}
-    order[:total_price_per_day] = @order.ordered_products.sum(:sub_total)
-    order[:total_price] = order[:total_price_per_day] * @order.duration_in_days + @order.delivery_cost
-    @order.update_attributes(order)
-  end
+#  private
+#  def set_up_ordered_product_for_create
+#    @ordered_product.user_id = current_user.id
+#    @ordered_product.price = @ordered_product.product.price
+#    @ordered_product.rent_price = @ordered_product.product.rent_price
+#    @ordered_product.sub_total = @ordered_product.rent_price * @ordered_product.qty
+#  end
+#
+#  def change_order_total
+#    @order = @ordered_product.order
+#    order = {}
+#    order[:total_price_per_day] = @order.ordered_products.sum(:sub_total)
+#    order[:total_price] = order[:total_price_per_day] * @order.duration_in_days + @order.delivery_cost
+#    @order.update_attributes(order)
+#  end
 end

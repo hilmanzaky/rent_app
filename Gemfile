@@ -17,8 +17,8 @@ group :assets do
 end
 
 gem 'kaminari'
-
 gem 'jquery-rails'
+gem 'best_in_place'
 
 # Use unicorn as the web server
 # gem 'unicorn'

@@ -109,6 +109,7 @@ class OrderedProduct < ActiveRecord::Base
           else
             temp_ordered_product[:sub_total] = self.rent_price * temp_ordered_product[:qty].to_i
           end
+          temp_ordered_product[:ori_sub_total] = temp_ordered_product[:sub_total]
           return_url = self.update_ordered_product(temp_ordered_product)
         else
           return_url = self.generate_error_msg(err_msg)
@@ -118,6 +119,7 @@ class OrderedProduct < ActiveRecord::Base
         unless product.stock < temp_ordered_product[:qty].to_i
           product.update_attribute(:stock, product.stock + (self.qty - temp_ordered_product[:qty].to_i))
           temp_ordered_product[:sub_total] = self.rent_price * temp_ordered_product[:qty].to_i
+          temp_ordered_product[:ori_sub_total] = temp_ordered_product[:sub_total]
           return_url = self.update_ordered_product(temp_ordered_product)
           self.rented_products.first.update_attribute(:rented_qty, self.qty)
         else
@@ -210,6 +212,7 @@ class OrderedProduct < ActiveRecord::Base
     else
       self.sub_total = self.rent_price * self.qty
     end
+    self.ori_sub_total = self.sub_total
     self.save
     if self.order_id.blank?
       #      return "admin_products_path"
@@ -224,8 +227,5 @@ class OrderedProduct < ActiveRecord::Base
       return "/admin/orders/#{self.order_id}/edit_detail"
     end
   end
-
-
-  
   
 end

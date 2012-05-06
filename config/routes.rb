@@ -19,7 +19,11 @@ BlackstarRentApp::Application.routes.draw do
       end
     end
 
-    resources :ordered_products
+    resources :ordered_products do
+      member do
+        put :set_sub_total
+      end
+    end
 
     resources :orders do
       get 'edit_detail'

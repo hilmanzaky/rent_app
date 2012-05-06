@@ -2,26 +2,42 @@
   <table width="100%">
     <caption>Order</caption>
     <thead>
-      <th>Banyaknya</th>
-      <th>Nama Barang</th>
-      <th>Harga</th>
-      <th>Jumlah Harga</th>
-      <th>Keterangan</th>
-      <% unless links == 'off' %>
-        <th colspan="2"></th>
-      <% end %>
+    <th>Banyaknya</th>
+    <th>Nama Barang</th>
+    <th>Harga</th>
+    <th>Jumlah Harga</th>
+    <th>Setelah Diskon</th>
+    <th>Keterangan</th>
+    <% unless links == 'off' %>
+      <th colspan="2"></th>
+    <% end %>
     </thead>
-
+    <% sum_sub_total = 0 %>
+    <% sum_ori_sub_total = 0 %>
     <% ordered_products.each do |ordered_product| %>
+      <% sum_sub_total += ordered_product.sub_total %>
+      <% sum_ori_sub_total += ordered_product.ori_sub_total %>
       <tr class="<%= cycle('odd', '') %>">
         <% if ordered_product.product.is_dimensional? %>
-        <td class="right"><%= "#{ordered_product.width * ordered_product.height} " %> m&sup2; <%=  " (#{ordered_product.width} "%> &times; <%=" #{ordered_product.height})" %></td>
+          <td class="right"><%= "#{ordered_product.width * ordered_product.height} " %> m&sup2; <%=  " (#{ordered_product.width} "%> &times; <%=" #{ordered_product.height})" %></td>
         <% else %>
-        <td class="right"><%= ordered_product.qty %></td>
+          <td class="right"><%= ordered_product.qty %></td>
         <% end %>
         <td><%= ordered_product.product.name %></td>
-        <td class="right"><%= ordered_product.rent_price %></td>
-        <td class="right"><%= ordered_product.sub_total %></td>
+        <td class="right"><%= money_format(ordered_product.rent_price) %></td>
+        <td class="right"><%= money_format(ordered_product.ori_sub_total) %></td>
+        <td class="right">
+          <% unless links == 'off' %>
+            <%= best_in_place ordered_product.sub_total, :to_f,
+              :type => :input,
+              :display_with => :number_to_currency,
+              :helper_options => {:unit => '', :delimiter => '.', :precision => 0},
+              :html_attrs => { :size => 5, :style => 'text-align:right' },
+              :path => set_sub_total_admin_ordered_product_path(ordered_product.id) %>
+          <% else %>
+            <%= money_format(ordered_product.sub_total) %>
+          <% end %>
+        </td>
         <td><%= ordered_product.description %></td>
         <% unless links == 'off' %>
           <td><%= link_to 'Ubah', edit_admin_ordered_product_path(ordered_product), :rel => 'facebox' %></td>
@@ -29,5 +45,14 @@
         <% end %>
       </tr>
     <% end %>
+    <tr>
+      <td style="text-align: right" colspan="3"><b>Jumlah</b></td>
+      <td style="text-align: right"><b><%= money_format(sum_ori_sub_total) %></b></td>
+      <td style="text-align: right"><b><%= money_format(sum_sub_total) %></b></td>
+    </tr>
+    <tr>
+      <td align="right"><b>Terbilang</b></td>
+      <td colspan="5"><b><%= terbilang(sum_sub_total) %> rupiah</b></td>
+    </tr>
   </table>
 </div>

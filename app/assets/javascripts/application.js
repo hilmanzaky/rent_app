@@ -6,6 +6,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.purr
+//= require best_in_place
 //= require jquery.ui.core
 //= require jquery.ui.widget
 //= require jquery.ui.mouse
