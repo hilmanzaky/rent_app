@@ -86,24 +86,24 @@ class Admin::ProductsController < ApplicationController
                                           :qty => 1)
   end
 
-  def save_order
-    @product = Product.find(params[:id])
-    @ordered_product = OrderedProduct.where(:user_id => current_user.id, :product_id => params[:id])
-
-    unless @ordered_product.blank?
-      @ordered_product.update_attribute(:qty => @ordered_product.qty + 1,
-                                        :sub_total => @product.rent_price * (@ordered_product.qty + 1))
-    else
-      @ordered_product = OrderedProduct.new(:user_id => current_user.id,
-                                            :product_id => params[:id],
-                                            :qty => 1,
-                                            :sub_total => @product.rent_price)
-    end
-    @ordered_product.save
-
-    respond_to do |format|
-      format.html { redirect_to admin_products_url }
-      format.js
-    end
-  end
+#  def save_order
+#    @product = Product.find(params[:id])
+#    @ordered_product = OrderedProduct.where(:user_id => current_user.id, :product_id => params[:id])
+#
+#    unless @ordered_product.blank?
+#      @ordered_product.update_attribute(:qty => @ordered_product.qty + 1,
+#                                        :sub_total => @product.rent_price * (@ordered_product.qty + 1))
+#    else
+#      @ordered_product = OrderedProduct.new(:user_id => current_user.id,
+#                                            :product_id => params[:id],
+#                                            :qty => 1,
+#                                            :sub_total => @product.rent_price)
+#    end
+#    @ordered_product.save
+#
+#    respond_to do |format|
+#      format.html { redirect_to admin_products_url }
+#      format.js
+#    end
+#  end
 end
