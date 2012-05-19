@@ -3,8 +3,14 @@ class Admin::ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = params[:name].blank? ? Product.page(params[:page]).per(10).order("created_at DESC") : Product.where("name LIKE ?", "%#{params[:name]}%").page(params[:page]).per(10).order("created_at DESC")
+    params[:is_rented] = 'true' if params[:is_rented].blank?
+    @products = Product.where("name LIKE ? AND is_rented = ?", "%#{params[:name]}%", params[:is_rented] == 'true' ? 1 : 0)
+    @products = @products.where("is_package = ?", params[:is_package] = 'true' ? 1 : 0) unless params[:is_package].blank?
+    @products = @products.where("is_dimensional = ?", params[:is_dimensional] == 'true' ? 1 : 0) unless params[:is_dimensional].blank?
+    @products = @products.page(params[:page]).per(10).order("created_at DESC")
     @ordered_products = OrderedProduct.where(:user_id => current_user.id, :order_id => nil)
+    @product = Product.new(:name => params[:name], :is_rented => params[:is_rented],
+                           :is_package => params[:is_package], :is_dimensional => params[:is_dimensional])
 
     respond_to do |format|
       format.html
@@ -82,28 +88,28 @@ class Admin::ProductsController < ApplicationController
 
   def order
     @ordered_product = OrderedProduct.new(:user_id => current_user.id,
-                                          :product_id => params[:id],
-                                          :qty => 1)
+      :product_id => params[:id],
+      :qty => 1)
   end
 
-#  def save_order
-#    @product = Product.find(params[:id])
-#    @ordered_product = OrderedProduct.where(:user_id => current_user.id, :product_id => params[:id])
-#
-#    unless @ordered_product.blank?
-#      @ordered_product.update_attribute(:qty => @ordered_product.qty + 1,
-#                                        :sub_total => @product.rent_price * (@ordered_product.qty + 1))
-#    else
-#      @ordered_product = OrderedProduct.new(:user_id => current_user.id,
-#                                            :product_id => params[:id],
-#                                            :qty => 1,
-#                                            :sub_total => @product.rent_price)
-#    end
-#    @ordered_product.save
-#
-#    respond_to do |format|
-#      format.html { redirect_to admin_products_url }
-#      format.js
-#    end
-#  end
+  #  def save_order
+  #    @product = Product.find(params[:id])
+  #    @ordered_product = OrderedProduct.where(:user_id => current_user.id, :product_id => params[:id])
+  #
+  #    unless @ordered_product.blank?
+  #      @ordered_product.update_attribute(:qty => @ordered_product.qty + 1,
+  #                                        :sub_total => @product.rent_price * (@ordered_product.qty + 1))
+  #    else
+  #      @ordered_product = OrderedProduct.new(:user_id => current_user.id,
+  #                                            :product_id => params[:id],
+  #                                            :qty => 1,
+  #                                            :sub_total => @product.rent_price)
+  #    end
+  #    @ordered_product.save
+  #
+  #    respond_to do |format|
+  #      format.html { redirect_to admin_products_url }
+  #      format.js
+  #    end
+  #  end
 end

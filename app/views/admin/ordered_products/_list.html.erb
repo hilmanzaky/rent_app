@@ -52,7 +52,7 @@
     </tr>
     <tr>
       <td align="right"><b>Terbilang</b></td>
-      <td colspan="5"><b><%= terbilang(sum_sub_total) %> rupiah</b></td>
+      <td colspan="5"><b><%= terbilang(sum_sub_total) + "rupiah" unless sum_sub_total == 0 %></b></td>
     </tr>
   </table>
 </div>
