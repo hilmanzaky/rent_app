@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2012 at 02:51 PM
+-- Generation Time: May 20, 2012 at 12:14 AM
 -- Server version: 5.1.58
 -- PHP Version: 5.3.6-13ubuntu3.3
 
@@ -20,23 +20,124 @@ SET time_zone = "+00:00";
 -- Database: `blackstar_rent_app_development`
 --
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ordered_products`
+--
+
+CREATE TABLE IF NOT EXISTS `ordered_products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sub_total` decimal(10,0) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `price` decimal(10,0) DEFAULT NULL,
+  `rent_price` decimal(10,0) DEFAULT NULL,
+  `width` double DEFAULT NULL,
+  `height` double DEFAULT NULL,
+  `ori_sub_total` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=37 ;
+
 --
 -- Dumping data for table `ordered_products`
 --
 
-INSERT INTO `ordered_products` (`id`, `order_id`, `product_id`, `description`, `sub_total`, `qty`, `created_at`, `updated_at`, `user_id`, `price`, `rent_price`, `width`, `height`) VALUES
-(30, NULL, 22, 'test', '540000', NULL, '2012-04-28 03:18:37', '2012-04-28 03:18:37', 1, NULL, '15000', 4, 9),
-(31, NULL, 22, 'test', '750000', NULL, '2012-04-28 03:46:45', '2012-04-28 03:46:45', 1, NULL, '15000', 10, 5),
-(32, NULL, 5, '', '20000', 10, '2012-04-28 15:25:18', '2012-04-28 15:25:18', 1, NULL, '2000', NULL, NULL),
-(33, NULL, 1, '', '2500', 1, '2012-04-28 15:27:04', '2012-04-28 15:27:04', 1, '300000', '2500', NULL, NULL),
-(34, NULL, 22, '', '660000', NULL, '2012-04-28 15:36:56', '2012-04-28 15:36:56', 1, NULL, '15000', 11, 4);
+INSERT INTO `ordered_products` (`id`, `order_id`, `product_id`, `description`, `sub_total`, `qty`, `created_at`, `updated_at`, `user_id`, `price`, `rent_price`, `width`, `height`, `ori_sub_total`) VALUES
+(30, 1, 22, 'test', '530000', NULL, '2012-04-28 03:18:37', '2012-05-05 09:23:45', 1, NULL, '15000', 4, 9, 540000),
+(31, 1, 22, 'test', '750000', NULL, '2012-04-28 03:46:45', '2012-04-28 03:46:45', 1, NULL, '15000', 10, 5, 750000),
+(32, 1, 5, '', '20000', 10, '2012-04-28 15:25:18', '2012-04-28 15:25:18', 1, NULL, '2000', NULL, NULL, 20000),
+(34, 1, 22, '', '660000', NULL, '2012-04-28 15:36:56', '2012-04-28 15:36:56', 1, NULL, '15000', 11, 4, 660000),
+(35, 1, 22, '', '750000', NULL, '2012-04-29 12:39:25', '2012-04-29 12:39:25', 1, NULL, '15000', 10, 5, 750000),
+(36, 1, 1, '', '5000', 2, '2012-05-05 09:29:21', '2012-05-05 09:29:35', 1, '300000', '2500', NULL, NULL, 5000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `delivery_date` date DEFAULT NULL,
+  `usage_date` date DEFAULT NULL,
+  `duration_in_days` int(11) DEFAULT NULL,
+  `total_price_per_day` decimal(10,0) DEFAULT NULL,
+  `total_price` decimal(10,0) DEFAULT NULL,
+  `payment_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `delivery_cost` decimal(10,0) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer`, `address`, `phone`, `delivery_date`, `usage_date`, `duration_in_days`, `total_price_per_day`, `total_price`, `payment_status`, `user_id`, `created_at`, `updated_at`, `delivery_cost`) VALUES
+(1, 'Hilman Zaky', 'Jl. Sidoluhur', '022 - 2222222', '2012-05-05', '2012-05-06', 3, '2715000', '8195000', 'Down Payment', 1, '2012-05-05 11:00:45', '2012-05-06 17:06:04', '50000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `amount` decimal(10,0) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `order_id`, `amount`, `created_at`, `updated_at`) VALUES
+(1, 1, '1000000', '2012-05-06 17:06:04', '2012-05-06 17:06:04'),
+(2, 1, '200000', '2012-05-06 17:06:35', '2012-05-06 17:06:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `price` decimal(10,0) DEFAULT NULL,
+  `rent_price` decimal(10,0) DEFAULT NULL,
+  `stock` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `is_package` tinyint(1) DEFAULT NULL,
+  `is_rented` tinyint(1) DEFAULT NULL,
+  `stock_out` int(11) DEFAULT '0',
+  `is_dimensional` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `rent_price`, `stock`, `created_at`, `updated_at`, `is_package`, `is_rented`, `stock_out`, `is_dimensional`) VALUES
-(1, 'Kursi Lipat', '', '300000', '2500', 11, '2012-01-14 23:27:13', '2012-04-28 15:27:04', 0, 1, 0, NULL),
+(1, 'Kursi Lipat', '', '300000', '2500', 10, '2012-01-14 23:27:13', '2012-05-05 09:29:35', 0, 1, 0, NULL),
 (2, 'Sendok B/K Polos', '', '3000', '500', 215, '2012-01-15 05:01:26', '2012-04-28 15:25:18', 0, 1, 0, NULL),
 (3, 'Garpu B/K Polos', '', '3000', '500', 105, '2012-01-15 05:02:00', '2012-04-28 15:25:18', 0, 1, 0, NULL),
 (4, 'Piring CKG', '', '6000', '600', 104, '2012-01-15 05:03:15', '2012-04-28 15:25:18', 0, 1, 0, NULL),
@@ -47,10 +148,10 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `rent_price`, `sto
 (19, 'x', 'asdf', '10000', NULL, 100, '2012-03-05 16:37:09', '2012-04-06 11:51:08', 0, 0, 0, NULL),
 (21, 'z', '', '10000', NULL, 95, '2012-03-05 16:53:31', '2012-04-06 11:51:08', 0, 0, 0, NULL),
 (22, 'Tenda Plafon', '', NULL, '15000', 0, '2012-04-25 04:34:24', '2012-04-25 04:34:24', 1, 1, 0, 1),
-(23, 'Rusuk 3m', '', NULL, NULL, 99, '2012-04-25 04:38:57', '2012-04-28 15:36:56', 0, 0, 0, 0),
-(24, 'Rusuk 4m', '', NULL, NULL, 98, '2012-04-25 04:39:19', '2012-04-28 15:36:56', 0, 0, 0, 0),
-(25, 'Rusuk 6m', '', NULL, NULL, 97, '2012-04-25 04:39:43', '2012-04-28 15:36:56', 0, 0, 0, 0),
-(26, 'Tiang 2.5m', '', NULL, NULL, 0, '2012-04-25 04:42:05', '2012-04-25 04:42:05', 0, 0, 0, 0),
+(23, 'Rusuk 3m', '', NULL, NULL, 96, '2012-04-25 04:38:57', '2012-04-29 12:39:25', 0, 0, 0, 0),
+(24, 'Rusuk 4m', '', NULL, NULL, 97, '2012-04-25 04:39:19', '2012-04-29 14:36:52', 0, 0, 0, 0),
+(25, 'Rusuk 6m', '', NULL, NULL, 96, '2012-04-25 04:39:43', '2012-04-29 14:36:52', 0, 0, 0, 0),
+(26, 'Tiang 2.5m', '', NULL, NULL, 97, '2012-04-25 04:42:05', '2012-04-29 14:36:52', 0, 0, 0, 0),
 (27, 'Tiang 3m', '', NULL, NULL, 0, '2012-04-25 04:42:19', '2012-04-25 04:42:19', 0, 0, 0, 0),
 (28, 'Tiang 3.5m', '', NULL, NULL, 0, '2012-04-25 04:42:41', '2012-04-25 04:42:41', 0, 0, 0, 0),
 (29, 'Tiang 4m', '', NULL, NULL, 0, '2012-04-25 04:42:57', '2012-04-25 04:42:57', 0, 0, 0, 0),
@@ -58,6 +159,22 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `rent_price`, `sto
 (31, 'Tiang 5m', '', NULL, NULL, 0, '2012-04-25 04:44:26', '2012-04-25 04:44:26', 0, 0, 0, 0),
 (32, 'Tiang 5.5m', '', NULL, NULL, 0, '2012-04-25 04:44:40', '2012-04-25 04:44:40', 0, 0, 0, 0),
 (33, 'Tiang 6m', '', NULL, NULL, 0, '2012-04-25 04:45:12', '2012-04-25 04:45:12', 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_packages`
+--
+
+CREATE TABLE IF NOT EXISTS `product_packages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `child_id` int(11) DEFAULT NULL,
+  `reduced_stocks` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `product_packages`
@@ -87,6 +204,21 @@ INSERT INTO `product_packages` (`id`, `parent_id`, `child_id`, `reduced_stocks`,
 (26, 22, 31, 1, '2012-04-25 04:53:35', '2012-04-25 04:53:35'),
 (27, 22, 32, 1, '2012-04-25 04:53:44', '2012-04-25 04:53:44'),
 (28, 22, 33, 1, '2012-04-25 04:53:55', '2012-04-25 04:53:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_stocks`
+--
+
+CREATE TABLE IF NOT EXISTS `product_stocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stock` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `product_stocks`
@@ -118,7 +250,26 @@ INSERT INTO `product_stocks` (`id`, `stock`, `product_id`, `created_at`, `update
 (24, 100, 18, '2012-03-06 23:16:24', '2012-03-06 23:16:24'),
 (25, 100, 23, '2012-04-28 15:34:56', '2012-04-28 15:34:56'),
 (26, 100, 25, '2012-04-28 15:35:33', '2012-04-28 15:35:33'),
-(27, 100, 24, '2012-04-28 15:35:54', '2012-04-28 15:35:54');
+(27, 100, 24, '2012-04-28 15:35:54', '2012-04-28 15:35:54'),
+(28, 100, 26, '2012-04-29 14:35:38', '2012-04-29 14:35:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rented_products`
+--
+
+CREATE TABLE IF NOT EXISTS `rented_products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ordered_product_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `return_qty` int(11) DEFAULT '0',
+  `rented_qty` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `rented_products`
@@ -128,10 +279,43 @@ INSERT INTO `rented_products` (`id`, `ordered_product_id`, `order_id`, `product_
 (1, 32, NULL, 4, 0, 10, '2012-04-28 15:25:18', '2012-04-28 15:25:18'),
 (2, 32, NULL, 2, 0, 20, '2012-04-28 15:25:18', '2012-04-28 15:25:18'),
 (3, 32, NULL, 3, 0, 20, '2012-04-28 15:25:18', '2012-04-28 15:25:18'),
-(4, 33, NULL, 1, 0, 1, '2012-04-28 15:27:04', '2012-04-28 15:27:04'),
 (5, 34, NULL, 23, 0, 1, '2012-04-28 15:36:56', '2012-04-28 15:36:56'),
 (6, 34, NULL, 24, 0, 2, '2012-04-28 15:36:56', '2012-04-28 15:36:56'),
-(7, 34, NULL, 25, 0, 3, '2012-04-28 15:36:56', '2012-04-28 15:36:56');
+(7, 34, NULL, 25, 0, 3, '2012-04-28 15:36:56', '2012-04-28 15:36:56'),
+(8, 35, NULL, 23, 0, 3, '2012-04-29 12:39:25', '2012-04-29 12:39:25'),
+(9, 35, NULL, 24, 0, 1, '2012-04-29 12:39:25', '2012-04-29 14:36:52'),
+(10, 35, NULL, 25, 0, 1, '2012-04-29 12:39:25', '2012-04-29 14:36:52'),
+(11, 35, NULL, 26, 0, 3, '2012-04-29 14:36:52', '2012-04-29 14:36:52'),
+(12, 36, NULL, 1, 0, 2, '2012-05-05 09:29:22', '2012-05-05 09:29:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `returned_products`
+--
+
+CREATE TABLE IF NOT EXISTS `returned_products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `return_qty` int(11) DEFAULT NULL,
+  `rented_product_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `roles`
@@ -140,12 +324,78 @@ INSERT INTO `rented_products` (`id`, `ordered_product_id`, `order_id`, `product_
 INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'admin', NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles_users`
+--
+
+CREATE TABLE IF NOT EXISTS `roles_users` (
+  `user_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Dumping data for table `roles_users`
 --
 
 INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES
 (1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schema_migrations`
+--
+
+CREATE TABLE IF NOT EXISTS `schema_migrations` (
+  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  UNIQUE KEY `unique_schema_migrations` (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `schema_migrations`
+--
+
+INSERT INTO `schema_migrations` (`version`) VALUES
+('20111226080525'),
+('20111231021706'),
+('20111231021832'),
+('20120102062245'),
+('20120102062427'),
+('20120102062731'),
+('20120102063516'),
+('20120103030552'),
+('20120111071737'),
+('20120118155510'),
+('20120119114804'),
+('20120121074507'),
+('20120123081643'),
+('20120130155012'),
+('20120206231637'),
+('20120213230421'),
+('20120311041854'),
+('20120415100826'),
+('20120425042914'),
+('20120427001005'),
+('20120505073647');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stock_histories`
+--
+
+CREATE TABLE IF NOT EXISTS `stock_histories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `old` int(11) DEFAULT NULL,
+  `new` int(11) DEFAULT NULL,
+  `product_stock_id` int(11) DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `stock_histories`
@@ -167,6 +417,22 @@ INSERT INTO `stock_histories` (`id`, `old`, `new`, `product_stock_id`, `descript
 (28, 50, 150, 15, '', '2012-03-04 15:52:42', '2012-03-04 15:52:42'),
 (29, 100, 50, 17, '', '2012-03-05 16:36:42', '2012-03-05 16:36:42'),
 (30, 5, 5, 21, '', '2012-03-06 22:39:32', '2012-03-06 22:39:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password_digest` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
