@@ -2,7 +2,8 @@ class Admin::OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.joins('LEFT JOIN users ON orders.user_id = users.id')
+    @orders = Order.joins('LEFT JOIN users ON orders.user_id = users.id').
+                    order("delivery_date DESC, usage_date DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -96,10 +97,14 @@ class Admin::OrdersController < ApplicationController
   # DELETE /orders/1.json
   def destroy
     @order = Order.find(params[:id])
-    @order.destroy
+    if @order.destroy
+      flash[:notice] = "Pesanan telah dihapus"
+    else
+      flash[:error] = "Pesanan tidak dapat dihapus"
+    end
 
     respond_to do |format|
-      format.html { redirect_to orders_url }
+      format.html { redirect_to admin_orders_url }
       format.json { head :ok }
     end
   end

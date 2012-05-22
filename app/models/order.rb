@@ -4,4 +4,11 @@ class Order < ActiveRecord::Base
   has_many :products, :through => :ordered_products
   has_many :payments
   has_many :rented_products
+
+
+  before_destroy do |record|
+    record.ordered_products.destroy_all # would triggered rented_products to be destroyed by ordered_product having dependent :destroy relation with rented_product
+#    record.rented_products.destroy_all
+  end
+
 end

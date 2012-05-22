@@ -27,11 +27,16 @@
         <td class="right"><%= money_format(order.total_price) %></td>
         <td><%= order.payment_status %></td>
         <td><%= order.user.username %></td>
-        <td><%= link_to 'Lihat', [:admin, order] %></td>
-        <td><%= link_to 'Ubah / Tambah Barang', admin_order_edit_detail_path(order) %></td>
-        <td><%= link_to 'Ubah Data Pengiriman', edit_admin_order_path(order) %></td>
-        <td><%= link_to 'Pembayaran', admin_order_payments_path(order) %></td>
-        <td><%= link_to 'Pengembalian', admin_order_rented_products_path(order) %></td>
+        <td>
+          <div class="iconed_text">
+            <%= link_to iconed_text('det','Lihat'), [:admin, order] %>
+            <%= link_to iconed_text('edit','Ubah / Tambah Barang'), admin_order_edit_detail_path(order) %>
+            <%= link_to iconed_text('edit','Ubah Data Pengiriman'), edit_admin_order_path(order) %>
+            <%= link_to iconed_text('edit','Pembayaran'), admin_order_payments_path(order) %>
+            <%= link_to iconed_text('edit','Pengembalian'), admin_order_rented_products_path(order) %>
+            <%= link_to iconed_text('del','Hapus'), [:admin, order], confirm: 'Are you sure?', :method => :delete %>
+          </div>
+        </td>
 
   <%#*<td>%>
   <%#= link_to 'Hapus', [:admin, order], confirm: 'Are you sure?', method: :delete %>
