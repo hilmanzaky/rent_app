@@ -45,7 +45,7 @@ class Admin::OrdersController < ApplicationController
     success = false
     @order = Order.new(params[:order])
     @order.user_id = current_user.id
-    @order.total_price_per_day = get_total_price_per_day # function from order model
+    @order.total_price_per_day = get_total_price_per_day
     @order.total_price = @order.total_price_per_day * @order.duration_in_days + @order.delivery_cost
 
     respond_to do |format|
@@ -137,6 +137,6 @@ class Admin::OrdersController < ApplicationController
 
   private
   def get_total_price_per_day
-    OrderedProduct.where(:user_id => current_user.id).sum(:sub_total)
+    OrderedProduct.where("user_id = ? AND order_id IS NULL", current_user.id).sum(:sub_total)
   end
 end
