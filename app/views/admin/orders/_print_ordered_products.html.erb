@@ -10,7 +10,7 @@
     <% @ordered_products.each do |ordered_product| %>
       <tr class="<%= cycle('odd', '') %>">
         <% if ordered_product.product.is_dimensional? %>
-          <td class="right"><%= "#{ordered_product.width * ordered_product.height} " %> m&sup2; <%=  " (#{ordered_product.width} "%> &times; <%=" #{ordered_product.height})" %></td>
+          <td class="right"><%= "#{number_format(ordered_product.width * ordered_product.height)} " %> m&sup2; <%=  " (#{number_format(ordered_product.width)} "%> &times; <%=" #{number_format(ordered_product.height)})" %></td>
         <% else %>
           <td class="right"><%= ordered_product.qty %></td>
         <% end %>

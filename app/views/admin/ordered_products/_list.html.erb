@@ -19,9 +19,9 @@
       <% sum_ori_sub_total += ordered_product.ori_sub_total %>
       <tr class="<%= cycle('odd', '') %>">
         <% if ordered_product.product.is_dimensional? %>
-          <td class="right"><%= "#{ordered_product.width * ordered_product.height} " %> m&sup2; <%=  " (#{ordered_product.width} "%> &times; <%=" #{ordered_product.height})" %></td>
+          <td class="right"><%= "#{number_format(ordered_product.width * ordered_product.height)} " %> m&sup2; <%=  " (#{number_format(ordered_product.width)} "%> &times; <%=" #{number_format(ordered_product.height)})" %></td>
         <% else %>
-          <td class="right"><%= ordered_product.qty %></td>
+          <td class="right"><%= number_format(ordered_product.qty) %></td>
         <% end %>
         <td><%= ordered_product.product.name %></td>
         <td class="right"><%= money_format(ordered_product.rent_price) %></td>
@@ -40,8 +40,10 @@
         </td>
         <td><%= ordered_product.description %></td>
         <% unless links == 'off' %>
-          <td><%= link_to 'Ubah', edit_admin_ordered_product_path(ordered_product), :rel => 'facebox' %></td>
-          <td><%= link_to 'Hapus', [:admin, ordered_product], confirm: 'Apakah anda yakin?', :method => :delete %></td>
+          <td class="iconed_text">
+            <%= link_to iconed_text('edit','Ubah'), edit_admin_ordered_product_path(ordered_product), :rel => 'facebox' %>
+            <%= link_to iconed_text('del','Hapus'), [:admin, ordered_product], confirm: 'Apakah anda yakin?', :method => :delete %>
+          </td>
         <% end %>
       </tr>
     <% end %>
@@ -50,9 +52,11 @@
       <td style="text-align: right"><b><%= money_format(sum_ori_sub_total) %></b></td>
       <td style="text-align: right"><b><%= money_format(sum_sub_total) %></b></td>
     </tr>
-    <tr>
-      <td align="right"><b>Terbilang</b></td>
-      <td colspan="5"><b><%= terbilang(sum_sub_total) + "rupiah" unless sum_sub_total == 0 %></b></td>
-    </tr>
+    <% unless links == 'off' %>
+      <tr>
+        <td align="right"><b>Terbilang</b></td>
+        <td colspan="6"><b><%= terbilang(sum_sub_total) + "rupiah" unless sum_sub_total == 0 %></b></td>
+      </tr>
+    <% end %>
   </table>
 </div>

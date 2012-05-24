@@ -5,12 +5,17 @@ class Admin::ProductsController < ApplicationController
   def index
     params[:is_rented] = 'true' if params[:is_rented].blank?
     @products = Product.where("name LIKE ? AND is_rented = ?", "%#{params[:name]}%", params[:is_rented] == 'true' ? 1 : 0)
-    @products = @products.where("is_package = ?", params[:is_package] = 'true' ? 1 : 0) unless params[:is_package].blank?
+    @products = @products.where("is_package = ?", params[:is_package] == 'true' ? 1 : 0) unless params[:is_package].blank?
     @products = @products.where("is_dimensional = ?", params[:is_dimensional] == 'true' ? 1 : 0) unless params[:is_dimensional].blank?
     @products = @products.page(params[:page]).per(10).order("created_at DESC")
-    @ordered_products = OrderedProduct.where(:user_id => current_user.id, :order_id => nil)
+    if params[:order_id].blank?
+      @ordered_products = OrderedProduct.where(:user_id => current_user.id, :order_id => nil)
+    else
+      @order = Order.find(params[:order_id])
+      @ordered_products = @order.ordered_products
+    end
     @product = Product.new(:name => params[:name], :is_rented => params[:is_rented],
-                           :is_package => params[:is_package], :is_dimensional => params[:is_dimensional])
+      :is_package => params[:is_package], :is_dimensional => params[:is_dimensional])
 
     respond_to do |format|
       format.html

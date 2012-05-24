@@ -7,6 +7,9 @@
       <table width="100%">
         <tr>
           <td>
+            <label>No Order</label>
+            <div class="show"># <%= @order.id %></div><br/>
+
             <label>Pemesan</label>
             <div class="show"><%= @order.customer %></div><br/>
 
@@ -30,7 +33,7 @@
             <div class="show"><%= money_format(@order.total_price_per_day) %></div><br/>
 
             <label>Total Harga</label>
-            <div class="show"><%= money_format(@order.total_price) %></div><br/>
+            <div class="show"><b><%= money_format(@order.total_price) %></b></div><br/>
 
             <label>Status</label>
             <div class="show"><%= @order.payment_status %></div><br/>
@@ -38,6 +41,12 @@
             <label>User</label>
             <div class="show"><%= @order.user.username %></div><br/>
           </td>
+        </tr>
+        <tr>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td colspan="2"><b>Terbilang &nbsp;&nbsp;:&nbsp;&nbsp; <%= terbilang(@order.total_price) + "rupiah" unless @order.total_price == 0 %></b></td>
         </tr>
       </table>
     </div>

@@ -6,16 +6,17 @@
   <%= form_tag admin_products_path, :method => :get, :remote => true do %>
     <div class="main-content">
       <div class="form">
-        <%#= label_tag 'Nama Barang' %>
+  <%#= label_tag 'Nama Barang' %>
         <%= text_field_tag :name, @product.name, :placeholder => 'nama barang' %>
         <%= select_tag :is_rented, options_for_select({"Barang Sewa" => "true",
-                                                       "Barang Non Sewa" => "false"}, :selected => "#{@product.is_rented}") %>
+            "Barang Non Sewa" => "false"}, :selected => "#{@product.is_rented}") %>
         <%= select_tag :is_package, options_for_select({"Dua-duanya" => "",
-                                                        "Paket" => "true",
-                                                        "Non Paket" => "false"}, :selected => "#{@product.is_package}") %>
+            "Paket" => "true",
+            "Non Paket" => "false"}, :selected => "#{@product.is_package}") %>
         <%= select_tag :is_dimensional, options_for_select({"Dua-duanya" => "",
-                                                            "Tenda" => "true",
-                                                            "Non Tenda" => "false"}, :selected => "#{@product.is_dimensional}") %>
+            "Tenda" => "true",
+            "Non Tenda" => "false"}, :selected => "#{@product.is_dimensional}") %>
+        <%= hidden_field_tag :order_id, @order.id unless @order.blank? %>
       </div>
     </div>
 

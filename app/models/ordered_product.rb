@@ -17,23 +17,23 @@ class OrderedProduct < ActiveRecord::Base
   #    end
   #  end
 
-  def triggered_destroy
-    product = self.product
-    unless product.is_dimensional?
-      if product.is_package?
-        product.childs.each do |p|
-
-          total_reduced_stocks = p.reduced_stocks * self.qty
-          p.child.update_attribute(:stock, p.child.stock + total_reduced_stocks)
-
-          #        ProductStock.update_stocks(p.child.parents)
-        end
-      else
-        product.update_attribute(:stock, product.stock + self.qty)
-      end
-    end
-    self.destroy
-  end
+#  def triggered_destroy
+#    product = self.product
+#    unless product.is_dimensional?
+#      if product.is_package?
+#        product.childs.each do |p|
+#
+#          total_reduced_stocks = p.reduced_stocks * self.qty
+#          p.child.update_attribute(:stock, p.child.stock + total_reduced_stocks)
+#
+#          #        ProductStock.update_stocks(p.child.parents)
+#        end
+#      else
+#        product.update_attribute(:stock, product.stock + self.qty)
+#      end
+#    end
+#    self.destroy
+#  end
 
   def self.get_new_ordered_products(user_id)
     self.where("user_id = ? AND order_id IS NULL", user_id)

@@ -3,6 +3,10 @@ module ApplicationHelper
     number_to_currency(money, :delimiter => '.', :unit => '', :precision => 0)
   end
 
+  def number_format(number)
+    number_with_precision(number, :strip_insignificant_zeros => true)
+  end
+
   def iconed_text(icon, text)
     "<span class='#{icon}'></span>#{text}".html_safe
   end

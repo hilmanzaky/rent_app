@@ -100,145 +100,6 @@ class Admin::OrderedProductsController < ApplicationController
       head :ok
     end
   end
-  
-  # fix version with no errors
-  #  def create
-  #    @ordered_product = OrderedProduct.new(params[:ordered_product])
-  #    product = @ordered_product.product
-  #    success = true
-  #    err_msg = []
-  #
-  #    respond_to do |format|
-  #      OrderedProduct.transaction do
-  #        if product.is_package?  # apakah barang yang dipesan merupakan barang paket
-  #          product.childs.each do |p|  # setiap barang dalam paket tersebut
-  #            total_reduced_stocks = p.reduced_stocks * @ordered_product.qty # menghitung total qty barang yang akan berkurang
-  #            if p.child.stock < total_reduced_stocks # apabila stok barang tidak mencukupi
-  #              success = false
-  #              err_msg << "Stok #{p.child.name} tidak mencukupi"
-  #            else
-  #              p.child.update_attribute(:stock, p.child.stock - total_reduced_stocks) if success
-  #            end
-  #          end
-  #          if success
-  #            set_up_ordered_product_for_create
-  #
-  #            if @ordered_product.save_and_reduce_stock(params[:ordered_product])
-  #              if @ordered_product.order_id.blank?
-  #                format.html { redirect_to admin_products_path, notice: 'Ordered  product was successfully created.' }
-  #              else
-  #                change_order_total
-  #                format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id), notice: 'Barang telah disimpan ke dalam order' }
-  #              end
-  #            else
-  #              format.html { render action: "new" }
-  #              raise ActiveRecord::Rollback
-  #            end
-  #          else
-  #            flash[:error] = "Melebihi stok" + "<ul><li>#{err_msg.join("</li><li>")}</li></ul>"
-  #            if @ordered_product.order_id.blank?
-  #              format.html { redirect_to admin_products_path }
-  #            else
-  #              format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id) }
-  #            end
-  #            raise ActiveRecord::Rollback
-  #          end
-  #        else
-  #          unless @ordered_product.product.stock < @ordered_product.qty
-  #            set_up_ordered_product_for_create
-  #
-  #            if @ordered_product.save_and_reduce_stock(params[:ordered_product])
-  #              if @ordered_product.order_id.blank?
-  #                format.html { redirect_to admin_products_path, notice: 'Ordered product was successfully created.' }
-  #              else
-  #                change_order_total
-  #                format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id), notice: 'Barang telah disimpan ke dalam order' }
-  #              end
-  #            else
-  #              raise ActiveRecord::Rollback and return false
-  #              format.html { render action: "new" }
-  #            end
-  #          else
-  #            flash[:error] = 'Melebihi stok'
-  #            if @ordered_product.order_id.blank?
-  #              format.html { redirect_to admin_products_path }
-  #            else
-  #              format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id) }
-  #            end
-  #          end
-  #        end
-  #      end
-  #    end
-  #  end
-
-  #  def update
-  #    @ordered_product = OrderedProduct.find(params[:id])
-  #    product = @ordered_product.product
-  #    success = true
-  #    err_msg = []
-  #
-  #    respond_to do |format|
-  #      OrderedProduct.transaction do
-  #        if product.is_package? # jika yang dipilih adalah paket barang
-  #          product.childs.each do |p|  # setiap barang dalam paket tersebut
-  #            total_reduced_stocks = p.reduced_stocks * (@ordered_product.qty - params[:ordered_product][:qty].to_i) # menghitung total qty barang yang akan berkurang
-  #            if p.child.stock < -(total_reduced_stocks) # apabila stok barang tidak mencukupi
-  #              success = false
-  #              err_msg << "Stok #{p.child.name} tidak mencukupi"
-  #            else
-  #              p.child.update_attribute(:stock, p.child.stock + total_reduced_stocks) if success # stok sekarang - total qty lama + total qty baru
-  #            end
-  #          end
-  #          if success
-  #            params[:ordered_product][:sub_total] = @ordered_product.rent_price * params[:ordered_product][:qty].to_i
-  #
-  #            if @ordered_product.save_and_reduce_stock(params[:ordered_product])  # termasuk mengurangi stok produk
-  #              if @ordered_product.order_id.blank?
-  #                format.html { redirect_to admin_products_path, notice: 'Ordered  product was successfully created.' }
-  #              else
-  #                change_order_total
-  #                format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id), notice: 'Barang telah disimpan ke dalam order' }
-  #              end
-  #            else
-  #              format.html { render action: "new" }
-  #              raise ActiveRecord::Rollback
-  #            end
-  #          else
-  #            flash[:error] = "Melebihi stok" + "<ul><li>#{err_msg.join("</li><li>")}</li></ul>"
-  #            if @ordered_product.order_id.blank?
-  #              format.html { redirect_to admin_products_path }
-  #            else
-  #              format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id) }
-  #            end
-  #            raise ActiveRecord::Rollback
-  #          end
-  #        else # jika bukan merupakan paket barang
-  #          unless @ordered_product.product.stock < params[:ordered_product][:qty].to_i
-  #            params[:ordered_product][:sub_total] = @ordered_product.rent_price * params[:ordered_product][:qty].to_i
-  #
-  #            if @ordered_product.save_and_reduce_stock(params[:ordered_product])
-  #              if @ordered_product.order_id.blank?
-  #                format.html { redirect_to admin_products_path, notice: 'Ordered product was successfully updated.' }
-  #              else
-  #                change_order_total
-  #                format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id), notice: 'Barang telah disimpan ke dalam order' }
-  #              end
-  #            else
-  #              raise ActiveRecord::Rollback and return false
-  #              format.html { render action: "edit" }
-  #            end
-  #          else
-  #            flash[:error] = 'Melebihi stok'
-  #            if @ordered_product.order_id.blank?
-  #              format.html { redirect_to admin_products_path }
-  #            else
-  #              format.html { redirect_to admin_order_edit_detail_path(@ordered_product.order_id) }
-  #            end
-  #          end
-  #        end
-  #      end
-  #    end
-  #  end
 
   # DELETE /ordered_products/1
   # DELETE /ordered_products/1.json
@@ -247,7 +108,7 @@ class Admin::OrderedProductsController < ApplicationController
     product = @ordered_product.product
     order_id = @ordered_product.order_id
 
-    @ordered_product.triggered_destroy
+    @ordered_product.destroy
 
     respond_to do |format|
       if order_id.blank?
@@ -263,19 +124,19 @@ class Admin::OrderedProductsController < ApplicationController
     #    p params
   end
 
-#  private
+  private
 #  def set_up_ordered_product_for_create
 #    @ordered_product.user_id = current_user.id
 #    @ordered_product.price = @ordered_product.product.price
 #    @ordered_product.rent_price = @ordered_product.product.rent_price
 #    @ordered_product.sub_total = @ordered_product.rent_price * @ordered_product.qty
 #  end
-#
-#  def change_order_total
-#    @order = @ordered_product.order
-#    order = {}
-#    order[:total_price_per_day] = @order.ordered_products.sum(:sub_total)
-#    order[:total_price] = order[:total_price_per_day] * @order.duration_in_days + @order.delivery_cost
-#    @order.update_attributes(order)
-#  end
+
+  def change_order_total
+    @order = @ordered_product.order
+    order = {}
+    order[:total_price_per_day] = @order.ordered_products.sum(:sub_total)
+    order[:total_price] = order[:total_price_per_day] * @order.duration_in_days + @order.delivery_cost
+    @order.update_attributes(order)
+  end
 end

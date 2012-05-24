@@ -3,7 +3,7 @@ class Admin::OrdersController < ApplicationController
   # GET /orders.json
   def index
     @orders = Order.joins('LEFT JOIN users ON orders.user_id = users.id').
-                    order("delivery_date DESC, usage_date DESC")
+      order("delivery_date DESC, usage_date DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -112,8 +112,9 @@ class Admin::OrdersController < ApplicationController
   def edit_detail
     @order = Order.find(params[:order_id])
     @ordered_products = @order.ordered_products
-    @products = params[:name].blank? ? Product.page(params[:page]).per(10) : Product.where("name LIKE ?", "%#{params[:name]}%").page(params[:page]).per(10)
-
+    @products = Product.where("is_rented = ?", 1).page(params[:page]).per(10).order("created_at DESC")
+    @product = Product.new
+    
     respond_to do |format|
       format.html
       format.js
@@ -134,9 +135,9 @@ class Admin::OrdersController < ApplicationController
     @ordered_products = @order.ordered_products
     @payments = @order.payments
 
-#    respond_to do |format|
-#      format.html
-#    end
+    #    respond_to do |format|
+    #      format.html
+    #    end
     render layout: 'print'
   end
 
