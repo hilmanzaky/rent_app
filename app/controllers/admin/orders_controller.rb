@@ -141,6 +141,11 @@ class Admin::OrdersController < ApplicationController
     render layout: 'print'
   end
 
+  def books
+    @orders = Order.order("created_at DESC").page(params[:page]).per(10)
+    @products = Product.select("id, name").order("name ASC")
+  end
+
   private
   def get_total_price_per_day
     OrderedProduct.where("user_id = ? AND order_id IS NULL", current_user.id).sum(:sub_total)

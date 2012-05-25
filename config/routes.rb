@@ -29,6 +29,7 @@ BlackstarRentApp::Application.routes.draw do
       get 'edit_detail'
       collection do
         get 'payments'
+        get 'books'
       end
 
       get 'print_original'
