@@ -58,6 +58,7 @@ class Admin::OrdersController < ApplicationController
             op.rented_products.update_all("order_id = #{@order.id}")
           end
           @ordered_products.update_all("order_id = #{@order.id}")
+          Payment.create(:amount => params[:payment], :order_id => @order.id) if @order.payment_status == "Down Payment"
         end
         format.html { redirect_to admin_order_path(@order), notice: 'Pesanan telah berhasil disimpan' }
       rescue ActiveRecord::RecordInvalid => invalid

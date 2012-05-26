@@ -4,5 +4,7 @@
   </div>
   <%= render 'form' %>
 </div>
+
+<%= hidden_field_tag :sum_sub_total, @ordered_products.sum(:sub_total) %>
 <br />
 <%= render :partial => 'admin/ordered_products/list', :locals => { :ordered_products => @ordered_products, :links => 'off' } %>
