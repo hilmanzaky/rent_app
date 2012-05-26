@@ -13,11 +13,11 @@
         <td style="text-align: right"><%= order.id %></td>
         <td><%= order.customer %><br/><%= order.address %></td>
         <% 
-           products = Product.find_by_sql("SELECT products.id, SUM(rented_qty) as rented_qty
-                                           FROM products
+           products = Product.find_by_sql("SELECT p.id, SUM(rented_qty) as rented_qty
+                                           FROM (SELECT id, name FROM products WHERE is_package = 0) p
                                                 LEFT JOIN (SELECT product_id, rented_qty FROM rented_products
-                                           WHERE order_id = #{order.id}) rp ON products.id = rp.product_id
-                                           GROUP BY products.id, rented_qty ORDER BY products.name ASC")
+                                                           WHERE order_id = #{order.id}) rp ON p.id = rp.product_id
+                                           GROUP BY p.id ORDER BY p.name ASC")
         %>
         <% products.each do |product| %>
           <td><%= number_format(product.rented_qty) %></td>
