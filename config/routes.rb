@@ -30,6 +30,7 @@ BlackstarRentApp::Application.routes.draw do
       collection do
         get 'payments'
         get 'books'
+        get 'build'
       end
 
       get 'print_original'

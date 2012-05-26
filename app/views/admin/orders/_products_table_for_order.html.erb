@@ -1,0 +1,28 @@
+<table width="100%">
+  <caption>Barang</caption>
+  <thead>
+  <th>Nama Produk</th>
+  <th>Deskripsi</th>
+  <th>Harga Beli</th>
+  <th>Harga Sewa</th>
+  <th>Stok</th>
+  <th></th>
+</thead>
+<% @products.each do |product| %>
+  <tr class="<%= cycle('odd', '') %>">
+    <td><%= product.name %></td>
+    <td><%= product.description %></td>
+    <td class="right"><%= money_format(product.price) %></td>
+    <td class="right"><%= money_format(product.rent_price) %></td>
+    <td class="right"><%= product.stock unless product.is_dimensional? %></td>
+    <% unless @order.blank? %>
+      <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_order_ordered_product_path(product, @order), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
+    <% else %>
+      <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_ordered_product_path(product), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
+    <% end %>
+  </tr>
+<% end %>
+<tr>
+  <td class="center" colspan="6"><%= paginate @products %></td>
+</tr>
+</table>

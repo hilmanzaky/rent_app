@@ -43,7 +43,7 @@ class OrderedProduct < ActiveRecord::Base
     self.update_attributes(temp_ordered_product)
     if self.order_id.blank?
       #      return "admin_products_path"
-      return "/admin/products"
+      return "/admin/orders/build"
     else
       order = self.order
       temp_order = {}
@@ -216,7 +216,7 @@ class OrderedProduct < ActiveRecord::Base
     self.save
     if self.order_id.blank?
       #      return "admin_products_path"
-      return "/admin/products"
+      return "/admin/orders/build"
     else
       order = self.order
       temp_order = {}

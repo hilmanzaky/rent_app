@@ -1,32 +1,27 @@
 <table width="100%">
   <caption>Barang</caption>
   <thead>
-    <th>Nama Produk</th>
-    <th>Deskripsi</th>
-    <th>Harga Beli</th>
-    <th>Harga Sewa</th>
-    <th>Stok</th>
-    <th colspan="5"></th>
-  </thead>
-  <% @products.each do |product| %>
-    <tr class="<%= cycle('odd', '') %>">
-      <td><%= product.name %></td>
-      <td><%= product.description %></td>
-      <td class="right"><%= money_format(product.price) %></td>
-      <td class="right"><%= money_format(product.rent_price) %></td>
-      <td class="right"><%= product.stock %></td>
-          <% unless @order.blank? %>
-            <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_order_ordered_product_path(product, @order), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
-          <% else %>
-            <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_ordered_product_path(product), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
-          <% end %>
-            <td class="iconed_text"><%= link_to iconed_text('det','Stok'), admin_product_product_stocks_path(product) %> <!-- product_stocks :index --></td>
-            <td class="iconed_text"><%= link_to iconed_text('det','Lihat'), [:admin, product] %></td>
-            <td class="iconed_text"><%= link_to iconed_text('edit','Ubah'), edit_admin_product_path(product), :rel => 'facebox' %></td>
-            <td class="iconed_text"><%= link_to iconed_text('del','Hapus'), [:admin, product], confirm: 'Are you sure?', :method => :delete %></td>
-    </tr>
-  <% end %>
-  <tr>
-    <td class="center" colspan="10"><%= paginate @products %></td>
+  <th>Nama Produk</th>
+  <th>Deskripsi</th>
+  <th>Harga Beli</th>
+  <th>Harga Sewa</th>
+  <th>Stok</th>
+  <th colspan="5"></th>
+</thead>
+<% @products.each do |product| %>
+  <tr class="<%= cycle('odd', '') %>">
+    <td><%= product.name %></td>
+    <td><%= product.description %></td>
+    <td class="right"><%= money_format(product.price) %></td>
+    <td class="right"><%= money_format(product.rent_price) %></td>
+    <td class="right"><%= product.stock %></td>
+    <td class="iconed_text"><%= link_to iconed_text('det','Stok'), admin_product_product_stocks_path(product) %> <!-- product_stocks :index --></td>
+    <td class="iconed_text"><%= link_to iconed_text('det','Lihat'), [:admin, product] %></td>
+    <td class="iconed_text"><%= link_to iconed_text('edit','Ubah'), edit_admin_product_path(product), :rel => 'facebox' %></td>
+    <td class="iconed_text"><%= link_to iconed_text('del','Hapus'), [:admin, product], confirm: 'Are you sure?', :method => :delete %></td>
   </tr>
+<% end %>
+<tr>
+  <td class="center" colspan="10"><%= paginate @products %></td>
+</tr>
 </table>

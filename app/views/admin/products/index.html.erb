@@ -1,12 +1,3 @@
-<%= render :partial => 'admin/ordered_products/list', :locals => { :ordered_products => @ordered_products, :links => 'on' } %>
-<% unless @ordered_products.empty? %>
-<br />
-<div class="link">
-  <%= link_to 'Simpan pesanan ini', new_admin_order_path %>
-</div>
-<% end %>
-<br/>
-
 <%= render :partial => 'search' %>
 <br/>
 

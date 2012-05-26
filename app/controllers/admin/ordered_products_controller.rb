@@ -112,7 +112,7 @@ class Admin::OrderedProductsController < ApplicationController
 
     respond_to do |format|
       if order_id.blank?
-        format.html { redirect_to admin_products_path }
+        format.html { redirect_to build_admin_orders_path }
       else
         change_order_total
         format.html { redirect_to admin_order_edit_detail_path(order_id) }
