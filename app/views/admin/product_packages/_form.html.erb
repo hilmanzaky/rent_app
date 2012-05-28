@@ -11,7 +11,7 @@
       <%= f.select :child_id, options_from_collection_for_select(@products, :id, :name) %><br />
 
       <%= f.label 'Pengurangan stok / paket' %>
-      <%= f.number_field :reduced_stocks, :size => 6, :class => 'align-right', :value => 1 %><br />
+      <%= f.text_field :reduced_stocks, :size => 6, :class => 'align-right', :value => 1 %><br />
     </div>
   </div>
   <div class="footer">

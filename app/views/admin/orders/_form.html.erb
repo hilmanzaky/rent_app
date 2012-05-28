@@ -43,10 +43,10 @@
       <br />
 
       <%= f.label 'Jumlah Hari' %>
-      <%= f.number_field :duration_in_days %><br />
+      <%= f.text_field :duration_in_days %><br />
 
       <%= f.label 'Ongkos Kirim' %>
-      <%= f.number_field :delivery_cost %><br />
+      <%= f.text_field :delivery_cost %><br />
 
       <table border="0">
         <tr>
@@ -59,11 +59,11 @@
               <table>
                 <tr>
                   <td style="text-align: right">Rp.</td>
-                  <td><%= number_field_tag :payment, '',:placeholder => 'jumlah' %></td>
+                  <td><%= text_field_tag :payment, '',:placeholder => 'jumlah' %></td>
                 </tr>
                 <tr>
                   <td style="text-align: right">Sisa</td>
-                  <td><%= number_field_tag :remain, '', :readonly => true %></td>
+                  <td><%= text_field_tag :remain, '', :readonly => true %></td>
                 </tr>
                 <tr>
                   <td style="text-align: right">Terbilang</td>
@@ -76,7 +76,7 @@
       </table>
 
       <%= label_tag 'Total' %>
-      <%= number_field_tag :total, '', :readonly => true %><br/>
+      <%= text_field_tag :total, '', :readonly => true %><br/>
 
       <%= label_tag 'Terbilang' %>
       <%= text_area_tag :terbilang, '', :readonly => true, :style => "width: 400px; height: 50px" %><br/>

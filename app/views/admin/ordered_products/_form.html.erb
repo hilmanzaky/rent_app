@@ -10,11 +10,11 @@
 
       <% if @product.is_dimensional? %>
         <%= f.label 'ukuran' %>
-        <%= f.number_field :width, :size => 1 %> &nbsp;&nbsp;&times;
-        <%= f.number_field :height, :size => 1 %><br />
+        <%= f.text_field :width, :size => 1 %> &nbsp;&nbsp;&times;
+        <%= f.text_field :height, :size => 1 %><br />
       <% else %>
         <%= f.label 'banyaknya' %>
-        <%= f.number_field :qty %><br />
+        <%= f.text_field :qty %><br />
       <% end %>
       <%= f.label 'keterangan' %>
       <%= f.text_area :description %><br />

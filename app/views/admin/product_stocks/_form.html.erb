@@ -4,7 +4,7 @@
       <%= render :partial => 'partials/error_messages', :locals => { :obj => @product_stock } %>
 
       <%= f.label 'stok' %>
-      <%= f.number_field :stock, :size => 5 %><br />
+      <%= f.text_field :stock, :size => 5 %><br />
 
       <%= f.hidden_field :product_id %>
 
