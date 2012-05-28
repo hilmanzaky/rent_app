@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
   def test
     puts "test"
   end
+
+  def normal_format(value)
+    return value.gsub(",", "")
+  end
   
   helper_method :current_user
 end
