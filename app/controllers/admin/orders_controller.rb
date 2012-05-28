@@ -44,6 +44,8 @@ class Admin::OrdersController < ApplicationController
   # POST /orders.json
   def create
     #    success = false
+    params[:order][:delivery_cost] = normal_format(params[:order][:delivery_cost])
+    params[:payment] = normal_format(params[:payment])
     @order = Order.new(params[:order])
     @order.user_id = current_user.id
     @order.total_price_per_day = get_total_price_per_day
@@ -65,18 +67,6 @@ class Admin::OrdersController < ApplicationController
         format.html { render action: "new" }
       end
     end
-    #        if @order.save
-    #          @ordered_products = OrderedProduct.get_new_ordered_products(current_user.id)
-    #          if @ordered_products.update_all("order_id = #{@order.id}")
-    #            format.html { redirect_to admin_products_path, notice: 'Order was successfully created.' }
-    #          else
-    #            format.html { render action: "new" }
-    #            format.json { render json: @order.errors, status: :unprocessable_entity }
-    #          end
-    #        else
-    #          format.html { render action: "new" }
-    #          format.json { render json: @order.errors, status: :unprocessable_entity }
-    #        end
   end
 
   # PUT /orders/1
