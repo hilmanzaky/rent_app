@@ -95,5 +95,3 @@ $(document).ready ->
         $("#remain").val(numberFormat(total - value_p))
         $("#terbilang").val(terbilang(total) + 'rupiah')
         $("#terbilang_remain").val(terbilang(total - value_p))
-
-        
