@@ -94,7 +94,7 @@ class Admin::OrderedProductsController < ApplicationController
   end
 
   def set_sub_total
-    new_sub_total = (params["fixnum"] || {})["to_f"]
+    new_sub_total = normal_format((params["fixnum"] || {})["to_s"])
     @ordered_product = OrderedProduct.find(params[:id])
     if @ordered_product.update_attribute(:sub_total, new_sub_total)
       head :ok

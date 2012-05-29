@@ -28,11 +28,11 @@
         <td class="right"><%= money_format(ordered_product.ori_sub_total) %></td>
         <td class="right">
           <% unless links == 'off' %>
-            <%= best_in_place ordered_product.sub_total, :to_f,
+            <%= best_in_place ordered_product.sub_total, :to_s,
               :type => :input,
               :display_with => :number_to_currency,
               :helper_options => {:unit => '', :delimiter => '.', :precision => 0},
-              :html_attrs => { :size => 5, :style => 'text-align:right' },
+              :html_attrs => { :size => 5, :style => 'text-align:right', :id => "bip_sub_total_#{ordered_product.id}", :class => "bip_sub_total" },
               :path => set_sub_total_admin_ordered_product_path(ordered_product.id) %>
           <% else %>
             <%= money_format(ordered_product.sub_total) %>
@@ -52,6 +52,20 @@
       <td style="text-align: right"><b><%= money_format(sum_ori_sub_total) %></b></td>
       <td style="text-align: right"><b><%= money_format(sum_sub_total) %></b></td>
     </tr>
+    <% unless @order.blank? %>
+      <tr>
+        <td style="text-align: right" colspan="3"><b>Ongkos Kirim</b></td>
+        <td style="text-align: right" colspan="2"><b><%= money_format(@order.delivery_cost) %></b></td>
+      </tr>
+      <tr>
+        <td style="text-align: right" colspan="3"><b>Total</b></td>
+        <td style="text-align: right" colspan="2"><b><%= money_format(sum_sub_total * @order.duration_in_days + @order.delivery_cost) %></b></td>
+      </tr>
+      <tr>
+        <td style="text-align: right" colspan="3"><b>Terbilang</b></td>
+        <td style="text-align: right" colspan="2"><b><%= terbilang(sum_sub_total * @order.duration_in_days + @order.delivery_cost) %> rupiah</b></td>
+      </tr>
+    <% end %>
     <% unless links == 'off' %>
       <tr>
         <td align="right"><b>Terbilang</b></td>
