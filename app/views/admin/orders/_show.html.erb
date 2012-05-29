@@ -18,22 +18,16 @@
 
             <label>Telepon</label>
             <div class="show"><%= @order.phone %></div><br/>
-
+          </td>
+          <td>
             <label>Tanggal Kirim</label>
             <div class="show"><%= @order.delivery_date %></div><br/>
 
             <label>Tanggal Pakai</label>
             <div class="show"><%= @order.usage_date %></div><br/>
-          </td>
-          <td>
+            
             <label>Durasi (per hari)</label>
             <div class="show"><%= @order.duration_in_days %></div><br/>
-
-            <label>Total Harga per Hari</label>
-            <div class="show"><%= money_format(@order.total_price_per_day) %></div><br/>
-
-            <label>Total Harga</label>
-            <div class="show"><b><%= money_format(@order.total_price) %></b></div><br/>
 
             <label>Status</label>
             <div class="show"><%= @order.payment_status %></div><br/>
@@ -41,12 +35,6 @@
             <label>User</label>
             <div class="show"><%= @order.user.username %></div><br/>
           </td>
-        </tr>
-        <tr>
-          <td><br/></td>
-        </tr>
-        <tr>
-          <td colspan="2"><b>Terbilang &nbsp;&nbsp;:&nbsp;&nbsp; <%= terbilang(@order.total_price) + "rupiah" unless @order.total_price == 0 %></b></td>
         </tr>
       </table>
     </div>
