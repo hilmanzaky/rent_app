@@ -51,7 +51,7 @@ class Admin::ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.triggered_save
-        format.html { redirect_to [:admin, @product], notice: 'Product was successfully created.' }
+        format.html { redirect_to [:admin, @product], notice: "Product was successfully created. #{link_add_product}".html_safe }
       else
         format.html { render action: "new" }
       end
@@ -112,4 +112,8 @@ class Admin::ProductsController < ApplicationController
   #      format.js
   #    end
   #  end
+  private
+  def link_add_product
+    "<div class='link'>#{view_context.link_to('Tambah Barang', new_admin_product_path, :rel => 'facebox')}</div>"
+  end
 end

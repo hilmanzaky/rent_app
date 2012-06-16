@@ -7,7 +7,7 @@ class Admin::ProductPackagesController < ApplicationController
     @product_package = ProductPackage.new(:parent_id => params[:product_id])
     @product_packages = ProductPackage.where(:parent_id => params[:product_id])
 #    temp = @product_packages.
-    @products = Product.where("id != #{params[:product_id]}")
+    @products = Product.available_for_package(params[:product_id])
   end
 
   def create
@@ -15,9 +15,10 @@ class Admin::ProductPackagesController < ApplicationController
     
     respond_to do |format|
       if @product_package.triggered_save
-        format.html { redirect_to [:admin, @product_package.parent], notice: 'Product Packages has been successfully created.' }
+        format.html { redirect_to [:admin, @product_package.parent], notice: 'Produk telah tersimpan sebagai paket' }
       else
-        format.html { render action: "new" }
+        flash[:error] = 'Tidak dapat menyimpan data'
+        format.html { redirect_to [:admin, @product_package.parent] }
       end
     end
   end

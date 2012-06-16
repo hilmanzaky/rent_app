@@ -19,10 +19,10 @@ class Admin::PaymentsController < ApplicationController
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to admin_order_payments_path(params[:payment][:order_id]), notice: 'Data pembayaran telah tersimpan.' }
+        format.html { redirect_to admin_order_path(params[:payment][:order_id]), notice: 'Data pembayaran telah tersimpan.' }
       else
         flash[:error] = 'Data pembayaran gagal disimpan'
-        format.html { redirect_to admin_order_payments_path(@payment.order_id) }
+        format.html { redirect_to admin_order_path(@payment.order_id) }
       end
     end
   end
@@ -39,10 +39,10 @@ class Admin::PaymentsController < ApplicationController
 
     respond_to do |format|
       if @payment.update_attributes(params[:payment])
-        format.html { redirect_to admin_order_payments_path(params[:payment][:order_id]), notice: 'Data pembayaran telah diubah.' }
+        format.html { redirect_to admin_order_path(params[:payment][:order_id]), notice: 'Data pembayaran telah diubah.' }
       else
         flash[:error] = 'Data pembayaran gagal diubah'
-        format.html { redirect_to admin_order_payments_path(@payment.order_id) }
+        format.html { redirect_to admin_order_path(@payment.order_id) }
       end
     end
   end

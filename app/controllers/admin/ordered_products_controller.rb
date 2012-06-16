@@ -54,8 +54,8 @@ class Admin::OrderedProductsController < ApplicationController
     @product = @ordered_product.product
     if @product.is_dimensional? and @product.is_package?
       #      @product_packages = @product.direct_childs.joins("LEFT JOIN (SELECT product_id, rented_qty
-      #FROM rented_products
-      #WHERE ordered_product_id = 34) rp ON product_packages.child_id = rp.product_id#")
+      # FROM rented_products
+      # WHERE ordered_product_id = 34) rp ON product_packages.child_id = rp.product_id#")
       #      .select("product_packages.id, name, rented_qty as qty")
       @rented_products = RentedProduct.find_by_sql("SELECT p.id, p.name, rented_qty
                                                     FROM

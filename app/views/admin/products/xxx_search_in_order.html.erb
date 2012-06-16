@@ -1,0 +1,9 @@
+<div class="panel">
+  <div class="header">
+    Cari Barang
+  </div>
+
+  <%= form_tag admin_order_edit_detail_path(@order), :method => :get, :remote => true do %>
+    <%= render :partial => 'admin/products/search_form' %>
+  <% end %>
+</div>

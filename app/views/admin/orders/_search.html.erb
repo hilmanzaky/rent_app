@@ -1,0 +1,9 @@
+<div class="panel">
+  <div class="header">
+    Cari Order
+  </div>
+
+  <%= form_tag admin_orders_path, :method => :get, :remote => true do %>
+    <%= render :partial => 'search_form' %>
+  <% end %>
+</div>

@@ -4,10 +4,18 @@ class Admin::OrdersController < ApplicationController
   def index
     @orders = Order.joins('LEFT JOIN users ON orders.user_id = users.id').
       order("delivery_date DESC, usage_date DESC")
+    if params[:delivery_date].blank? and params[:usage_date].blank?
+      params[:delivery_date] = Time.now.strftime("%Y-%m-%d")
+    end
+    @orders = @orders.where("delivery_date = ?", params[:delivery_date]) unless params[:delivery_date].blank?
+    @orders = @orders.where("usage_date = ?", params[:usage_date]) unless params[:usage_date].blank?
+    @orders = @orders.page(params[:page]).per(10).order("created_at DESC")
+
+    @order = Order.new(:delivery_date => params[:delivery_date], :usage_date => params[:usage_date])
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @orders }
+      format.html
+      format.js
     end
   end
 
@@ -16,6 +24,9 @@ class Admin::OrdersController < ApplicationController
   def show
     @order = Order.joins('LEFT JOIN users ON orders.user_id = users.id').find(params[:id])
     @ordered_products = @order.ordered_products
+    @payments = @order.payments.order('created_at ASC')
+    @grand_total = @ordered_products.sum(:sub_total) * @order.duration_in_days + @order.delivery_cost
+    @total_payment = @payments.sum(:amount)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -90,10 +101,17 @@ class Admin::OrdersController < ApplicationController
   # DELETE /orders/1.json
   def destroy
     @order = Order.find(params[:id])
-    if @order.destroy
-      flash[:notice] = "Pesanan telah dihapus"
+    rp = ReturnedProduct.joins("LEFT JOIN rented_products rp ON returned_products.rented_product_id = rp.id
+                                LEFT JOIN orders o ON rp.order_id = o.id").
+      where("rp.order_id = ?", params[:id])
+    if rp.blank?
+      if @order.destroy
+        flash[:notice] = "Pesanan telah dihapus"
+      else
+        flash[:error] = "Pesanan tidak dapat dihapus"
+      end
     else
-      flash[:error] = "Pesanan tidak dapat dihapus"
+      flash[:error] = "Pesanan telah berjalan dan tidak dapat dihapus"
     end
 
     respond_to do |format|
@@ -105,7 +123,8 @@ class Admin::OrdersController < ApplicationController
   def edit_detail
     @order = Order.find(params[:order_id])
     @ordered_products = @order.ordered_products
-    @products = Product.where("is_rented = ?", 1).page(params[:page]).per(10).order("created_at DESC")
+    #    @products = Product.where("is_rented = ?", 1).page(params[:page]).per(10).order("created_at DESC")
+    @products = Product.stocks_at(params[:usage_date]).page(params[:page]).per(10)
     @product = Product.new
     
     respond_to do |format|
@@ -134,6 +153,14 @@ class Admin::OrdersController < ApplicationController
     render layout: 'print'
   end
 
+  def print_deliver
+    @order = Order.find(params[:order_id])
+    @order.update_attribute(:is_delivered, true)
+    @ordered_products = @order.ordered_products
+
+    render layout: 'print'
+  end
+
   def books
     @orders = Order.order("created_at DESC").page(params[:page]).per(10)
     @products = Product.select("id, name").order("name ASC").where("is_package = ?", 0)
@@ -141,12 +168,27 @@ class Admin::OrdersController < ApplicationController
 
   def build
     params[:is_rented] = 'true' if params[:is_rented].blank?
-    @products = Product.where("name LIKE ? AND is_rented = ?", "%#{params[:name]}%", params[:is_rented] == 'true' ? 1 : 0)
-    @products = @products.where("is_package = ?", params[:is_package] == 'true' ? 1 : 0) unless params[:is_package].blank?
-    @products = @products.where("is_dimensional = ?", params[:is_dimensional] == 'true' ? 1 : 0) unless params[:is_dimensional].blank?
-    @products = @products.page(params[:page]).per(10).order("created_at DESC")
+
+    if params[:usage_date].blank?
+      time = Time.new
+      params[:usage_date] = time.strftime("%Y-%m-%d")
+    end
+    
+    @usage_date = params[:usage_date]
+
+    #    @products = Product.stocks_in(params[:rent_date]).where("name LIKE ? AND is_rented = ?", "%#{params[:name]}%", params[:is_rented] == 'true' ? 1 : 0)
+    #    @products = @products.page(params[:page]).per(10).order("b.created_at DESC")
+    #    @products = Product.where("name LIKE ? AND is_rented = ?", "%#{params[:name]}%", params[:is_rented] == 'true' ? 1 : 0)
+    #    @products = @products.where("is_package = ?", params[:is_package] == 'true' ? 1 : 0) unless params[:is_package].blank?
+    #    @products = @products.where("is_dimensional = ?", params[:is_dimensional] == 'true' ? 1 : 0) unless params[:is_dimensional].blank?
+    #    @products = @products.page(params[:page]).per(10).order("created_at DESC")
+    
+
+    @products = Product.stocks_at(params[:usage_date]).page(params[:page]).per(10)
+
     if params[:order_id].blank?
       @ordered_products = OrderedProduct.where(:user_id => current_user.id, :order_id => nil)
+      #      @order = Order.new(:usage_date => params[:usage_date])
     else
       @order = Order.find(params[:order_id])
       @ordered_products = @order.ordered_products

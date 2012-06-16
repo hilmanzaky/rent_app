@@ -1,0 +1,74 @@
+<table width="100%">
+  <tr>
+    <td style="text-align: center">
+      <%= image_tag("Logo.jpg", :size => '100x100') %><br/>
+      <b>H A Y A T</b>
+    </td>
+    <td>
+      <%= render :partial => 'print_order', :locals => { :deliver => true } %>
+    </td>
+  </tr>
+  <tr class="normal_text">
+    <td colspan="2">
+      <table width="100%">
+        <tr>
+          <td width="50%">MOHON DITERIMA & PERIKSA KEMBALI</td>
+          <td width="50%" style="text-align: right">
+            Bandung, <%= date_format_id(Time.now) %>&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div class="table_list">
+        <table width="100%">
+          <caption>Perincian Sewa</caption>
+          <thead>
+          <th>Nama Barang</th>
+          <th>Banyaknya</th>
+          <th>Keterangan</th>
+          </thead>
+          <% @ordered_products.each do |ordered_product| %>
+            <tr class="<%= cycle('odd', '') %>">
+              <td><%= ordered_product.product.name %></td>
+              <% if ordered_product.product.is_dimensional? %>
+                <td class="right"><%= "#{number_format(ordered_product.width * ordered_product.height)} " %> m&sup2; <%=  " (#{number_format(ordered_product.width)} "%> &times; <%=" #{number_format(ordered_product.height)})" %></td>
+              <% else %>
+                <td class="right"><%= ordered_product.qty %></td>
+              <% end %>
+              <td><%= money_format(ordered_product.description) %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><br/></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <table class="normal_text" width="100%">
+        <tr>
+          <td width="30%" style="text-align: center; vertical-align: top">
+            PENERIMA
+          </td>
+          <td width="40%"></td>
+          <td style="text-align: center">
+            HORMAT KAMI,
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <b>HAYAT</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

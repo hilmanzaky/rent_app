@@ -1,0 +1,42 @@
+<div class="main-content">
+  <div class="form">
+      <%= text_field_tag :delivery_date, @order.delivery_date, :size => '5', :maxlength => '10', :placeholder => "tanggal kirim" %>
+      <button id="btn_delivery_date">...</button>
+      <script type="text/javascript">
+        //<![CDATA[
+        Calendar.setup({
+          inputField : "delivery_date",
+          trigger : "btn_delivery_date",
+          onSelect : function() { this.hide() },
+          dateFormat : "%Y-%m-%d"
+        });
+        //]]>
+      </script>
+      <%= text_field_tag :usage_date, @order.usage_date, :size => '5', :maxlength => '10', :placeholder => "tanggal pakai" %>
+      <button id="btn_usage_date">...</button>
+      <script type="text/javascript">
+        //<![CDATA[
+        Calendar.setup({
+          inputField : "usage_date",
+          trigger : "btn_usage_date",
+          onSelect : function() { this.hide() },
+          dateFormat : "%Y-%m-%d"
+        });
+        //]]>
+      </script>
+    <%#= text_field_tag :name, @product.name, :placeholder => 'nama barang' %>
+    <%#= select_tag :is_rented, options_for_select({"Barang Sewa" => "true",
+        "Barang Non Sewa" => "false"}, :selected => "#{@product.is_rented}") %>
+    <%#= select_tag :is_package, options_for_select({"Dua-duanya" => "",
+        "Paket" => "true",
+        "Non Paket" => "false"}, :selected => "#{@product.is_package}") %>
+    <%#= select_tag :is_dimensional, options_for_select({"Dua-duanya" => "",
+        "Tenda" => "true",
+        "Non Tenda" => "false"}, :selected => "#{@product.is_dimensional}") %>
+    <%#= hidden_field_tag :order_id, @order.id unless @order.blank? %>
+  </div>
+</div>
+
+<div class="footer">
+  <%= submit_tag 'Cari', :id => 'search_button' %>
+</div>
