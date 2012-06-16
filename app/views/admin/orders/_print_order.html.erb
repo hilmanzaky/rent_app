@@ -16,6 +16,7 @@
             <label>Telepon</label>
             <div class="show"><%= @order.phone %></div><br/>
           </td>
+          <% unless deliver %>
           <td>
             <label>No.</label>
             <div class="show"><%= @order.id %></div><br/>
@@ -29,6 +30,7 @@
             <label>Durasi (per hari)</label>
             <div class="show"><%= @order.duration_in_days %></div><br/>
           </td>
+          <% end %>
         </tr>
       </table>
     </div>

@@ -5,8 +5,12 @@ class ProductPackage < ActiveRecord::Base
 #belongs_to :product_child, :foreign_key => "child_id"
 
   def triggered_save
-    self.save
-    product = Product.find(self.child_id)
-    product.update_stocks
+    if !self.child_id.blank? && !self.parent_id.blank?
+      self.save
+      product = Product.find(self.child_id)
+      product.update_stocks
+    else
+      false
+    end
   end
 end

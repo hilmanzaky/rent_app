@@ -53,18 +53,20 @@
       <td style="text-align: right"><b><%= money_format(sum_sub_total) %></b></td>
     </tr>
     <% unless @order.blank? %>
-      <tr>
-        <td style="text-align: right" colspan="3"><b>Ongkos Kirim</b></td>
-        <td style="text-align: right" colspan="2"><b><%= money_format(@order.delivery_cost) %></b></td>
-      </tr>
-      <tr>
-        <td style="text-align: right" colspan="3"><b>Total</b></td>
-        <td style="text-align: right" colspan="2"><b><%= money_format(sum_sub_total * @order.duration_in_days + @order.delivery_cost) %></b></td>
-      </tr>
-      <tr>
-        <td style="text-align: right" colspan="3"><b>Terbilang</b></td>
-        <td style="text-align: right" colspan="2"><b><%= terbilang(sum_sub_total * @order.duration_in_days + @order.delivery_cost) %> rupiah</b></td>
-      </tr>
+      <% unless @order.id.blank? %>
+        <tr>
+          <td style="text-align: right" colspan="3"><b>Ongkos Kirim</b></td>
+          <td style="text-align: right" colspan="2"><b><%= money_format(@order.delivery_cost) %></b></td>
+        </tr>
+        <tr>
+          <td style="text-align: right" colspan="3"><b>Total</b></td>
+          <td style="text-align: right" colspan="2"><b><%= money_format(sum_sub_total * @order.duration_in_days + @order.delivery_cost) %></b></td>
+        </tr>
+        <tr>
+          <td style="text-align: right" colspan="3"><b>Terbilang</b></td>
+          <td style="text-align: right" colspan="2"><b><%= terbilang(sum_sub_total * @order.duration_in_days + @order.delivery_cost) %> rupiah</b></td>
+        </tr>
+      <% end %>
     <% end %>
     <% unless links == 'off' %>
       <tr>

@@ -3,7 +3,7 @@
   <thead>
   <th>Nama Produk</th>
   <th>Deskripsi</th>
-  <th>Harga Beli</th>
+  <!--<th>Harga Beli</th>-->
   <th>Harga Sewa</th>
   <th>Stok</th>
   <th></th>
@@ -12,13 +12,21 @@
   <tr class="<%= cycle('odd', '') %>">
     <td><%= product.name %></td>
     <td><%= product.description %></td>
-    <td class="right"><%= money_format(product.price) %></td>
+    <!--<td class="right">-->
+        <%#= money_format(product.price) %>
+    <!--</td>-->
     <td class="right"><%= money_format(product.rent_price) %></td>
-    <td class="right"><%= product.stock unless product.is_dimensional? %></td>
+    <td class="right">
+      <% if product.is_package? %>
+      <%= number_format(product.package_stock(@usage_date)) %>
+      <% else %>
+      <%= number_format(product.remain.to_f) unless product.is_dimensional? %>
+      <% end %>
+    </td>
     <% unless @order.blank? %>
-      <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_order_ordered_product_path(product, @order), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
+      <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_order_ordered_product_path(product.id, @order), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
     <% else %>
-      <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_ordered_product_path(product), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
+      <td class="iconed_text"><%= link_to iconed_text('cart','Pesan'), new_admin_product_ordered_product_path(product.id), :rel => "facebox", :onclick => "javascript:$.facebox({ajax: this.href});return false;" if (!@ordered_products.any? { |o| o.product_id == product.id } || product.is_dimensional?) && product.is_rented? %></td>
     <% end %>
   </tr>
 <% end %>

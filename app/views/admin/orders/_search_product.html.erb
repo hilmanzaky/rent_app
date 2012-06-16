@@ -3,7 +3,7 @@
     Cari Barang
   </div>
 
-  <%= form_tag build_admin_orders_path, :method => :get, :remote => true do %>
+  <%= form_tag build_admin_orders_path, :id => 'search_products', :method => :get, :remote => true do %>
     <%= render :partial => 'admin/products/search_form' %>
   <% end %>
 </div>
