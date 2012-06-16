@@ -1,15 +1,35 @@
 <div class="main-content">
   <div class="form">
 <%#= label_tag 'Nama Barang' %>
+    <%= text_field_tag :usage_date, @usage_date, :size => '5', :maxlength => '10', :placeholder => "untuk tanggal" %>
+      <button id="btn_usage_date">...</button>
+      <script type="text/javascript">
+        //<![CDATA[
+        Calendar.setup({
+          inputField : "usage_date",
+          trigger : "btn_usage_date",
+          onSelect : function() {
+            $("#search_products").submit();
+            this.hide();
+          },
+          dateFormat : "%Y-%m-%d"
+        });
+        //]]>
+      </script>
+
     <%= text_field_tag :name, @product.name, :placeholder => 'nama barang' %>
+
     <%= select_tag :is_rented, options_for_select({"Barang Sewa" => "true",
         "Barang Non Sewa" => "false"}, :selected => "#{@product.is_rented}") %>
+
     <%= select_tag :is_package, options_for_select({"Dua-duanya" => "",
         "Paket" => "true",
         "Non Paket" => "false"}, :selected => "#{@product.is_package}") %>
+
     <%= select_tag :is_dimensional, options_for_select({"Dua-duanya" => "",
         "Tenda" => "true",
         "Non Tenda" => "false"}, :selected => "#{@product.is_dimensional}") %>
+      
     <%= hidden_field_tag :order_id, @order.id unless @order.blank? %>
   </div>
 </div>

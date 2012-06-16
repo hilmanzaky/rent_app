@@ -3,8 +3,9 @@
 <br/>
 
 <div class="link">
-  <%= link_to 'Ubah', edit_admin_product_path(@product) %>
+  <%= link_to 'Ubah', edit_admin_product_path(@product), :rel => "facebox" %>
   <%= link_to 'Kembali', admin_products_path %>
+  <%= link_to 'Tambah stok', new_admin_product_product_stock_path(@product), :rel => 'facebox' %>
 </div>
 
 <br/>

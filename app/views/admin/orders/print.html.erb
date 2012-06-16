@@ -4,7 +4,7 @@
       <%= image_tag("Logo.jpg", :size => '100x100') %><br/>
       <b>H A Y A T</b>
     </td>
-    <td><%= render :partial => 'print_order' %></td>
+    <td><%= render :partial => 'print_order', :locals => { :deliver => false } %></td>
   </tr>
   <tr>
     <td colspan="2">

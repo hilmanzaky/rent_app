@@ -7,5 +7,10 @@
 <br/>
 
 <div class="link">
-  <%= link_to 'Print', "JavaScript:newPopup('#{admin_order_print_path(@order)}');" %>
+  <%= link_to 'Print Invoice', "JavaScript:newPopup('#{admin_order_print_path(@order)}');" %>
+  <%= link_to 'Kirim', "JavaScript:newPopup('#{admin_order_print_deliver_path(@order)}');" %>
 </div>
+<br/>
+<%= render :partial => 'admin/payments/payment_list' %>
+<br/>
+<br/>
